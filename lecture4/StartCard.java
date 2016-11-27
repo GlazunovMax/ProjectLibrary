@@ -16,25 +16,31 @@ package by.homework.lecture4;
 
 public class StartCard {
     public static void main(String[] args) {
-        DebitCard d = new DebitCard("Иванов Иван Иванович");
 
+        ATM atm1 = new ATM();
+
+        Card a = new Card("Прошкин В.А.", atm1.FORCARD);
+        a.checkBalance();
+        a.toReffilBalance(55);
+        a.toWithdrawMoney();
+        a.checkBalance();
+
+
+        Card c = new CreditCard("Иванов Иван Иванович", atm1.FORDEBITCARD);
+        c.toReffilBalance(34);
+        c.toWithdrawMoney();
+        c.checkBalance();
+
+
+        Card d = new DebitCard("Петров Иван Николаевич", atm1.FORDEBITCARD);
         d.getOwner();
         d.toReffilBalance(34);
         d.toWithdrawMoney();
         d.checkBalance();
 
-        System.out.println();
-
-        CreditCard c = new CreditCard("Петров Иван Николаевич");
 
 
-        c.toReffilBalance(34);
-        c.toWithdrawMoney();
-        c.checkBalance();
 
-        ATM atm = new ATM("Петров Смит Николаевич");
-        atm.toWithdrawMoney();
-        atm.checkBalance();
 
 
 

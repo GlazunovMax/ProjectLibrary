@@ -2,8 +2,10 @@ package by.homework.lecture4;
 
 
 public class CreditCard extends Card {
-    public CreditCard(String owner) {
-        super(owner);
+
+    public CreditCard(String owner, int card) {
+        super(owner, card);
+
     }
 @Override
 public void checkBalance() {

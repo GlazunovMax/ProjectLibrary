@@ -6,10 +6,13 @@ import java.util.Scanner;
 public class Card {
     private String owner;
     private int balance;
+    private int card;
 
 
-    public Card(String owner) {
+    public Card(String owner, int card) {
         this.owner = owner;
+        this.card = card;
+
     }
 
     int getBalance() {
@@ -17,20 +20,17 @@ public class Card {
 
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
     public String getOwner() {
         return "Карта принадлежит " + owner;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public int getCard() {
+        return card;
     }
 
+
    void checkBalance(){
-        System.out.println("Текущий баланс счет " + balance);
+        System.out.println("Текущий баланс счета " + balance);
     }
 
     void toReffilBalance(int sum){
@@ -45,5 +45,7 @@ public class Card {
         balance -= sum;
         System.out.println("Со счета были сняты средства " + sum);
     }
+
+
 }
 

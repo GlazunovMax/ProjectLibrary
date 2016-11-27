@@ -1,15 +1,11 @@
 package by.homework.lecture4;
 
 
-public class ATM extends Card {
+public class ATM {
 
-    public ATM(String owner) {
-        super(owner);
-    }
+    final int FORCARD = 1;
+    final int FORCREDITCARD = 2;
+    final int FORDEBITCARD = 3;
 
-
-    @Override
-    void toWithdrawMoney() {
-        super.toWithdrawMoney();
-    }
 }
+
