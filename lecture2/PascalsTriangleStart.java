@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  Написать программу, выводящую на экран первые N строк Треугольника Паскаля.
  1 < N < 10
-
+!!!нерешена
  */
 public class PascalsTriangleStart {
     public static void main(String[] args) {
