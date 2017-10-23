@@ -1,0 +1,91 @@
+body{
+	background: #c7b39b ;
+}
+
+
+table {
+    width: auto; /* Ширина таблицы */
+/*     border: 1px solid green; Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+}
+   
+td {
+    height:45px;
+/*   width:100%; */
+  	border-radius:3px;
+  	border:rgba(0,0,0,.3) 2px solid;
+  	box-sizing:border-box;
+  	font-family: 'Open Sans', sans-serif;
+  	font-size:18px; 
+  	padding:10px;
+    text-align: left; /* Выравниваем текст по центру ячейки */
+}
+
+.addForm{
+	margin: auto;
+	display: inline;
+	
+}
+
+.changeCell {
+	height:35px;
+  	width:100%;
+  	border-radius:3px;
+  	border:rgba(0,0,0,.3) 2px solid;
+  	box-sizing:border-box;
+  	font-family: 'Open Sans', sans-serif;
+  	font-size:15px; 
+  	padding:7px;
+}
+
+.button{
+  	height:35px;
+  	margin-left: 40%;
+  	width:10%;
+  	border-radius:15px;
+  	box-sizing:border-box;
+  	padding:5px;
+  	background:#c0c0c0;
+  	color:#FFF;
+  	font-family: 'Open Sans', sans-serif;  
+  	font-weight:200;
+  	font-size: 14pt;
+  	transition:background .4s;
+	cursor:pointer;
+}
+
+.buttonCancel{
+  	height:35px;
+  	width:10%;
+  	border-radius:15px;
+  	box-sizing:border-box;
+  	padding:5px;
+  	background:#c0c0c0;
+  	color:#FFF;
+  	font-family: 'Open Sans', sans-serif;  
+  	font-weight:200;
+  	font-size: 14pt;
+  	transition:background .4s;
+	cursor:pointer;
+}
+
+.add_textbox{
+	height:40px;
+  	width:20%;
+	border-radius:10px;
+    border:rgba(0,0,0,.3) 2px solid;
+  	box-sizing:border-box;
+  	font-family: 'Open Sans', sans-serif;
+  	font-size:18px; 
+  	padding:5px;
+  	margin-bottom:15px;  
+}
+
+p {
+    color: #242424;
+    font-size: 24px;
+    font-weight: 100;
+    text-align: left;
+    margin-top: 37px;
+    margin-bottom: 30px;
+}
