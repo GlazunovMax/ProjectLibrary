@@ -13,11 +13,12 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class AddPublishedBy implements Command{
-
+	private static final String PUBLISHED_BY_TITLE = "publishedByTitle";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PublishedBy addPublishedBy = new PublishedBy();
-		addPublishedBy.setPublishedByTitle(request.getParameter("publishedByTitle"));
+		addPublishedBy.setPublishedByTitle(request.getParameter(PUBLISHED_BY_TITLE));
 		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		PublishedByService publishedByService = factory.getPublishedByService();
@@ -34,10 +35,10 @@ public class AddPublishedBy implements Command{
 				page = "addBooks.jsp";
 			}
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			request.setAttribute("AddPublishedErrorNull", "Cannot add empty published by");
+			page = "addBooks.jsp";
 		}
 		
-//		redirect
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 		

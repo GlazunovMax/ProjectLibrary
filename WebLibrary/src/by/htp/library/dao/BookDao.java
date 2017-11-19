@@ -1,5 +1,6 @@
 package by.htp.library.dao;
 
+import java.io.InputStream;
 import java.util.List;
 import by.htp.library.bean.Book;
 import by.htp.library.dao.exception.DaoException;

@@ -13,13 +13,14 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class AddAuthor implements Command {
-
+	private static final String AUTHOR_NAME = "authorName";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Author addAuthor = new Author();
 		
-		addAuthor.setAuthorName(request.getParameter("authorName"));
+		addAuthor.setAuthorName(request.getParameter(AUTHOR_NAME));
 		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		AuthorService authorService = factory.getAuthorService();
@@ -37,10 +38,10 @@ public class AddAuthor implements Command {
 			}
 			
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("AddAuthorErrorNull", "Cannot add empty author");
+			page = "addBooks.jsp";
 		}
-//		redirect
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 		

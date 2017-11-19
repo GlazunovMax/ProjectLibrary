@@ -26,19 +26,10 @@ public class GetAllGenre implements Command{
 		ServiceFactory factory = ServiceFactory.getInstance();
 		GenreService genreService = factory.getGenreService();
 		String page = null;
-		//String roleA = request.getParameter("showGenre");
 		
 		try {  
 			genreList = genreService.getAllGenres();
-			//if(!genreList.isEmpty()){
-				request.setAttribute("genre", genreList);
-				//page = "WEB-INF/jsp/StartPage.jsp";
-				/*if(roleA.equals("genreAdmin")){
-					page = "WEB-INF/jsp/StartPageAdmin.jsp";
-				}else if(roleA.equals("genreClient"))
-					page = "WEB-INF/jsp/StartPage.jsp";
-				*/
-			//}
+			request.setAttribute("genre", genreList);	
 		} catch (ServiceException e) {
 			request.setAttribute("genreEmpty", "There are no genres listed.");
 			page = "WEB-INF/error/error.jsp";

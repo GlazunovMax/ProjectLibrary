@@ -14,7 +14,9 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class SignIn implements Command {
-
+	private static final String LOGIN = "login";
+	private static final String PASSWORD = "password";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -29,14 +31,14 @@ public class SignIn implements Command {
 
 		String login;
 		HttpSession session = request.getSession(true);
-		login = request.getParameter("login");
-		session.setAttribute("login", login);
+		login = request.getParameter(LOGIN);
+		session.setAttribute(LOGIN, login);
 
 		String password;
 		User user = new User();
 
-		login = request.getParameter("login");
-		password = request.getParameter("password");
+		login = request.getParameter(LOGIN);
+		password = request.getParameter(PASSWORD);
 
 		ServiceFactory factory = ServiceFactory.getInstance();
 		UserService userService = factory.getUserService();
@@ -45,24 +47,19 @@ public class SignIn implements Command {
 		try {
 			user = userService.signIn(login, password);
 			if (user != null) {
-				if (user.getRole().equals("client")) {
-					request.setAttribute("user", user);
-					page = "libraryClient.jsp";
-				} else if (user.getRole().equals("admin")) {
-					request.setAttribute("user", user);
-					page = "WEB-INF/jsp/libraryAdmin.jsp";
-				}
+				session.setAttribute("role", user.getRole());
+				request.setAttribute("user", user);
+				page = "WEB-INF/jsp/libraryAdminOrClient.jsp"; 
 			} else {
 				request.setAttribute("errorSingIn", "User not registered...");
 				page = "signIn.jsp";
 			}
 		} catch (ServiceException e1) {
-			e1.printStackTrace();
 			request.setAttribute("error", "wrong password or login");
 			page = "signIn.jsp";
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);// ?????
+		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 
 	}

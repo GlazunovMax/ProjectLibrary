@@ -9,6 +9,8 @@ public class Book extends Model {
 	private String publishedById;
 	private String genreId;
 	private byte[] image;
+	private byte[] content;
+	private String img;
 
 	public Book() {
 		super();
@@ -117,6 +119,22 @@ public class Book extends Model {
 		} else if (!publishedById.equals(other.publishedById))
 			return false;
 		return true;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 }

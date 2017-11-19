@@ -14,18 +14,17 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class UpdateBook implements Command {
-
+	private static final String BOOK_TITLE = "bookTitle";
+	private static final String PUBLICATION_YEAR = "publicationYear";
+	private static final String ID = "id";
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Book book = new Book();
 
-		book.setBookTitle(request.getParameter("bookTitle"));
-		// book.setAuthorName(request.getParameter("authorName"));
-		book.setPublicationYear(Integer.parseInt(request.getParameter("publicationYear")));
-		// book.setPublishedById(Integer.parseInt(request.getParameter("publishedByTitle")));
-		// book.setGenreId(Integer.parseInt(request.getParameter("genreTitle")));
-		book.setId(Long.parseLong(request.getParameter("id")));
+		book.setBookTitle(request.getParameter(BOOK_TITLE));
+		book.setPublicationYear(Integer.parseInt(request.getParameter(PUBLICATION_YEAR)));
+		book.setId(Long.parseLong(request.getParameter(ID)));
 
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
@@ -34,19 +33,16 @@ public class UpdateBook implements Command {
 		try {
 			bookService.updateBook(book);
 			if (book != null) {
-				request.setAttribute("BookUpdate", book);
-				request.setAttribute("BookSuccessUpdate", "Book changed successfully)");
-				page = "WEB-INF/jsp/bookAdmin.jsp";
+				page = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&BookSuccessUpdate=Book changed successfully!";
+				response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
 			request.setAttribute("ErrorBookUpdate", "Cannot update, input fields are empty");
 			page = "WEB-INF/jsp/editBook.jsp";
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			dispatcher.forward(request, response);
 		}
-
-		//response.sendRedirect(page);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-		dispatcher.forward(request, response);
-
 	}
 
 }

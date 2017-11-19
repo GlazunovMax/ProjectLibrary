@@ -17,7 +17,7 @@ import by.htp.library.dbConnection.FactoryConnectionPool;
 
 
 public class DatabaseAuthorDao  implements AuthorDao{
-	private static Logger log = Logger.getLogger(DatabaseGenreDao.class);
+	private static Logger log = Logger.getLogger(DatabaseAuthorDao.class);
 	
 	private static final String SQL_SELECT = "SELECT id, author_name FROM author";
 	private static final String ID = "id";
@@ -69,18 +69,9 @@ public class DatabaseAuthorDao  implements AuthorDao{
 		return authorList;
 	}
 
-//	@Override
-//	public void add(Author author) throws DaoException {
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
-	
-	
 	private static final String SQL_INSERT = "INSERT INTO author (author_name) VALUES(?)";
 	@Override
 	public void add(Author author) throws DaoException {
-		//DbConnection connection = null;
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
 		Connection connection;
@@ -88,12 +79,8 @@ public class DatabaseAuthorDao  implements AuthorDao{
 		PreparedStatement preparedStatement = null;
 
 		try {
-			 
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(SQL_INSERT);
-			//connection = new DbConnection();
-			//preparedStatement = connection.getConnection().prepareStatement(SQL_INSERT);
-
 			
 			preparedStatement.setString(1, author.getAuthorName());
 
@@ -111,7 +98,5 @@ public class DatabaseAuthorDao  implements AuthorDao{
 				log.error("Cannot close preparedStatement ", e);
 			}
 		}
-		
 	}
-	
 }

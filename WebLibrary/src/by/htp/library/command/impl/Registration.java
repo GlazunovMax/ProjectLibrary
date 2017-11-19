@@ -13,34 +13,34 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class Registration implements Command {
+	private static final String NAME = "name";
+	private static final String SURNAME = "surname";
+	private static final String LOGIN = "login";
+	private static final String PASSWORD = "password";
+	private static final String ROLE = "role";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		User user = new User();
 
-		user.setName(request.getParameter("name")); // именовать переменные
-		user.setSurname(request.getParameter("surname"));
-		user.setLogin(request.getParameter("login"));
-		user.setPassword(request.getParameter("password"));
-		user.setRole(request.getParameter("role"));
+		user.setName(request.getParameter(NAME)); 
+		user.setSurname(request.getParameter(SURNAME));
+		user.setLogin(request.getParameter(LOGIN));
+		user.setPassword(request.getParameter(PASSWORD));
+		user.setRole(request.getParameter(ROLE));
 
 		ServiceFactory factory = ServiceFactory.getInstance();
 		UserService userService = factory.getUserService();
 		String page = null;
-
+		HttpSession session = request.getSession(true);
+		
 		try {
 			userService.registration(user);
 			if (user != null) {
-				if (user.getRole().equals("client")) {	// сомманд
-					request.setAttribute("user", user);
-					page = "WEB-INF/jsp/successRegistr.jsp";
-					// page="WEB-INF/jsp/libraryClient.jsp";
-				} else if (user.getRole().equals("admin")) {
-					request.setAttribute("user", user);
-					page = "WEB-INF/jsp/libraryAdmin.jsp";
-				}
-				
+				session.setAttribute("role", user.getRole());
+				request.setAttribute("user", user);
+				page = "WEB-INF/jsp/libraryAdminOrClient.jsp";
 			}
 		} catch (ServiceException e) {
 			request.setAttribute("errorRegistration", "Incorrect data");
@@ -52,7 +52,6 @@ public class Registration implements Command {
 			
 		}
 
-		HttpSession session = request.getSession(true);
 		String login = request.getParameter("login");
 		session.setAttribute("login", login);
 

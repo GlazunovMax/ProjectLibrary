@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import org.apache.log4j.Logger;
-
 import by.htp.library.dao.exception.DaoException;
 import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
@@ -60,11 +58,9 @@ public class DatabaseCountRows {
 	
 	
 //	Count genre by title
-	public int getGenreCount(String genre) throws DaoException{//&&&&&&&&&&&&&&&&
+	public int getGenreCount(String genre) throws DaoException{
 		int count = 0;
-		//Map<String, String> params = g
-	//	String genre = null;
-	
+		
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
 		
@@ -73,7 +69,7 @@ public class DatabaseCountRows {
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where genre.genre_title= '"+ genre +"' AND book.status='Y' "); // " AND book.status='Y' ");
+			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where genre.genre_title= '"+ genre +"' AND book.status='Y' "); 
 
 			
 			while (resultSet.next()) {
@@ -104,8 +100,8 @@ public class DatabaseCountRows {
 		return count;
 	}
 	
-//	Count bool by Author
-	public int getAuthorCount(String searchString) throws DaoException{//&&&&&&&&&&&&&&&&
+//	Count by Author
+	public int getAuthorCount(String searchString) throws DaoException{
 		int count = 0;
 	
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -116,8 +112,7 @@ public class DatabaseCountRows {
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			statement = connection.createStatement();
-//			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where genre.genre_title= '"+ searchString +"' AND book.status='Y' "); // " AND book.status='Y' ");
-			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where author.author_name like '%"+ searchString +"%' AND book.status='Y' ");//"%" + str + "%"
+			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where author.author_name like '%"+ searchString +"%' AND book.status='Y' ");
 			
 			while (resultSet.next()) {
 				count = resultSet.getInt("COUNT");
@@ -147,11 +142,9 @@ public class DatabaseCountRows {
 		return count;
 	}
 	
-//	Count bool by Title
+//	Count by Title
 	public int getTitleCount(String searchString) throws DaoException{//&&&&&&&&&&&&&&&&
 		int count = 0;
-		//Map<String, String> params = g
-	//	String genre = null;
 	
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
@@ -161,7 +154,6 @@ public class DatabaseCountRows {
 		
 		try(Connection connection = connectionPool.takeConnection()) {
 			statement = connection.createStatement();
-//			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where author.author_name like '%"+ searchString +"%' AND book.status='Y' ");//"%" + str + "%"
 			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.book_title like '%"+ searchString +"%' AND book.status='Y' ");
 			while (resultSet.next()) {
 				count = resultSet.getInt("COUNT");
@@ -186,11 +178,7 @@ public class DatabaseCountRows {
 			} catch (SQLException e) {
 				log.error("Cannot close statement ", e);
 			}	
-		
 		}
 		return count;
 	}
-	
-	
-
 }

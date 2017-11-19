@@ -26,8 +26,6 @@ public class GetAllBook implements Command {
 		System.out.println(request.getParameter(PAGE_NUMBER));
 		int pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER));
 		
-		System.out.println("AAA ");
-		
 		System.out.println(request.getParameter(ROWS_PER_PAGE));
 		if(request.getParameter(ROWS_PER_PAGE) != null){
 			countRow = Integer.parseInt(request.getParameter(ROWS_PER_PAGE));
@@ -41,20 +39,24 @@ public class GetAllBook implements Command {
 
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
+		
 		String page = null;
-		String role = request.getParameter("search");
-		System.out.println("role = " + request.getParameter("search"));
+		
+		String addBookSuccess = request.getParameter("AddBookSuccess");
+		String successBookRemove = request.getParameter("SuccessBookRemove");
+		String bookSuccessUpdate = request.getParameter("BookSuccessUpdate");
 		
 		try {
 			bookList = bookService.getAll(start, countRow);
 			
-			if(!bookList.isEmpty()){
-				if(role.equals("searchClient")) page = "libraryClient.jsp";
-				if(role.equals("searchAdmin"))	page = "WEB-INF/jsp/libraryAdmin.jsp";
+			if(!bookList.isEmpty()){		
+				page = "WEB-INF/jsp/libraryAdminOrClient.jsp";
 				request.setAttribute("allBookList", bookList);
+				request.setAttribute("AddBookSuccess", addBookSuccess);
+				request.setAttribute("SuccessBookRemove", successBookRemove);
+				request.setAttribute("BookSuccessUpdate", bookSuccessUpdate);
 			}else{
-				if(role.equals("searchClient")) page = "libraryClient.jsp";
-				if(role.equals("searchAdmin"))	page = "WEB-INF/jsp/libraryAdmin.jsp";
+				page = "WEB-INF/jsp/libraryAdminOrClient.jsp";
 				request.setAttribute("errorGetAll", "Books not found...");
 			}
 			

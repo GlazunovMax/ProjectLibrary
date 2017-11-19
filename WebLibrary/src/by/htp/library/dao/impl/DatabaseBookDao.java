@@ -4,13 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import org.apache.log4j.Logger;
 import by.htp.library.bean.Book;
 import by.htp.library.dao.BookDao;
@@ -24,13 +19,13 @@ public class DatabaseBookDao implements BookDao {
 	private static final Logger log = Logger.getLogger(DatabaseUserDao.class);
 	
 	
-	private static final String SQL_SELECT_TITLE = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.book_title like ? AND book.status='Y' limit ?,?";
-	private static final String SQL_SELECT_AUTHOR = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where author.author_name like ? AND book.status='Y' limit ?,?";
-	private static final String SQL_SELECT_GENRE = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where genre.genre_title like ? AND book.status='Y' limit ?,?";
+	private static final String SQL_SELECT_TITLE = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image, book.content FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.book_title like ? AND book.status='Y' limit ?,?";
+	private static final String SQL_SELECT_AUTHOR = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image, book.content FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where author.author_name like ? AND book.status='Y' limit ?,?";
+	private static final String SQL_SELECT_GENRE = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image, book.content FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where genre.genre_title like ? AND book.status='Y' limit ?,?";
 	private static final String SQL_UPDATE = "UPDATE book SET book_title=?, publication_year=? WHERE id = ?"; 
 	private static final String SQL_SELECT_UPDATE = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.id = ?";
 	private static final String SQL_DELETE_UPDATE = "UPDATE book SET status='N' WHERE id =?";
-	private static final String SQL_SELECT_ALL = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.status='Y' limit ?,?";
+	private static final String SQL_SELECT_ALL = "SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image, book.content FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.status='Y' limit ?,?";
 	
 	
 	private static final String ID = "id";
@@ -40,7 +35,7 @@ public class DatabaseBookDao implements BookDao {
 	private static final String PUBLISHED_BY_TITLE = "published_by_title";
 	private static final String GENRE_TITLE = "genre_title";
 	private static final String IMAGE = "image";
-
+	private static final String CONTENT = "content";
 	
 	@Override
 	public List<Book> getByTitle(String bookTitle, int start, int countRows) throws DaoException {
@@ -52,15 +47,13 @@ public class DatabaseBookDao implements BookDao {
 		return getListBook(authorName, SQL_SELECT_AUTHOR, "author", start, countRows);
 	}
 
-	//public int totalBooksCount = getGenreCount(str);
-	
 	@Override
 	public List<Book> getByGenre(String genreName, int start, int countRows) throws DaoException {
 		return getListBook(genreName, SQL_SELECT_GENRE, "genre", start, countRows);
 	}
 	
+	
 	public List<Book> getListBook(String str, String SQL, String searchBy, int start, int countRows) throws DaoException{
-		
 		
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
@@ -89,8 +82,7 @@ public class DatabaseBookDao implements BookDao {
 				book.setPublishedById(resultSet.getString(PUBLISHED_BY_TITLE));
 				book.setGenreId(resultSet.getString(GENRE_TITLE));
 				book.setImage(resultSet.getBytes(IMAGE));
-				
-				//preparedStatement.executeUpdate();
+				book.setContent(resultSet.getBytes(CONTENT));
 				
 				bookList.add(book);
 			}
@@ -114,10 +106,8 @@ public class DatabaseBookDao implements BookDao {
 				} catch (SQLException e) {
 					log.error("Cannot close preparedStatement ", e);
 				}			
-		}
-		
+		}	
 		return bookList;
-	
 	}
 	
 	
@@ -131,7 +121,6 @@ public class DatabaseBookDao implements BookDao {
 		 List<Book> bookList = new ArrayList<Book>();
 		 
 		 try(Connection connection = connectionPool.takeConnection()) {
-				//preparedStatement = connection.prepareStatement("SELECT book.id, book.book_title, author.author_name, book.publication_year, published_by.published_by_title, genre.genre_title, book.image FROM book INNER JOIN author ON author.id = book.author_id INNER JOIN published_by ON published_by.id = book.published_by_id INNER JOIN genre ON genre.id = book.genre_id where book.status='Y' limit "+ start + "," + countRows);
 				preparedStatement = connection.prepareStatement(SQL_SELECT_ALL);
 				
 				preparedStatement.setInt(1, start);
@@ -148,11 +137,9 @@ public class DatabaseBookDao implements BookDao {
 					book.setPublishedById(resultSet.getString(PUBLISHED_BY_TITLE));
 					book.setGenreId(resultSet.getString(GENRE_TITLE));
 					book.setImage(resultSet.getBytes(IMAGE));
+					book.setContent(resultSet.getBytes(CONTENT));
 					
-					//preparedStatement.executeUpdate();
-					
-					bookList.add(book);
-					
+					bookList.add(book);	
 				}
 			} catch (SQLException e) {
 				throw new DaoException("Cannot find all book ", e);
@@ -179,51 +166,7 @@ public class DatabaseBookDao implements BookDao {
 			return bookList;
 	
 	}
-	
-	
-//	public int getBooksCount() throws DaoException{
-//		int count = 0;
-//		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
-//		ConnectionPool connectionPool = factory.getConnectionPool();
-//		
-//		Statement statement = null;
-//		ResultSet resultSet = null;
-//		
-//		try(Connection connection = connectionPool.takeConnection()) {
-//			statement = connection.createStatement();
-//			resultSet = statement.executeQuery("SELECT COUNT(*) AS COUNT FROM Book WHERE status = 'Y'");
-//			
-//			while (resultSet.next()) {
-//				count = resultSet.getInt("COUNT");
-//			}
-//		} catch (SQLException e) {
-//			throw new DaoException("Cannot find count book ", e);
-//		} catch (ConnectionPoolException e) {
-//			log.error("Error connecting to the connection pool in update", e);
-//		}finally {
-//			try {
-//				if (resultSet != null)
-//					resultSet.close();
-//				log.trace("resultSet closed");
-//			} catch (SQLException e) {
-//				log.error("Cannot close resultSet ", e);
-//			}	
-//			
-//			try {
-//				if (statement != null)
-//					statement.close();
-//				log.trace("statement closed");
-//			} catch (SQLException e) {
-//				log.error("Cannot close statement ", e);
-//			}	
-//		
-//		}
-//		return count;
-//	}
-	
 
-	
-	//UPDATE book SET book_title=?, author_id=?, publication_year=?, published_by_id=?, genre_id WHERE id = ?"
 	@Override
 	public void update(Book book) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -235,13 +178,7 @@ public class DatabaseBookDao implements BookDao {
 			preparedStatement = connection.prepareStatement(SQL_UPDATE);
 			
 			preparedStatement.setString(1, book.getBookTitle());
-					//preparedStatement.setLong(2, author.getId());
-					//preparedStatement.setString(2, author.getAuthorName());//----
 			preparedStatement.setInt(2, book.getPublicationYear());
-			//preparedStatement.setInt(4, book.getPublishedById());
-			//preparedStatement.setString(4, book.getPublishedById());//----
-			//preparedStatement.setInt(5, book.getGenreId());
-			//preparedStatement.setString(5, book.getGenreId());//-----
 			preparedStatement.setLong(3, book.getId());
 		
 			preparedStatement.executeUpdate();
@@ -268,12 +205,10 @@ public class DatabaseBookDao implements BookDao {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
 		PreparedStatement preparedStatement = null;
-		//Statement statement = null;
 		ResultSet resultSet = null;
 		Book book = new Book();
 		
 		try(Connection connection = connectionPool.takeConnection()) {
-			//statement = connection.createStatement();
 			preparedStatement = connection.prepareStatement(SQL_SELECT_UPDATE);
 			preparedStatement.setLong(1, id);
 			resultSet = preparedStatement.executeQuery();
@@ -323,7 +258,6 @@ public class DatabaseBookDao implements BookDao {
 		PreparedStatement preparedStatement = null;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
-			//preparedStatement = connection.prepareStatement(SQL_DELETE);
 			preparedStatement = connection.prepareStatement(SQL_DELETE_UPDATE);
 			preparedStatement.setLong(1, id);
 			preparedStatement.executeUpdate();
@@ -351,7 +285,7 @@ public class DatabaseBookDao implements BookDao {
 	private static final String SQL_SELECT_TRANSACTION_AUTHOR = "SELECT id INTO @a_id FROM author WHERE author_name = ? ";
 	private static final String SQL_SELECT_TRANSACTION_PUBLISHED_BY = "SELECT id INTO @p_id FROM published_by WHERE published_by_title = ?";
 	private static final String SQL_SELECT_TRANSACTION_GENRE = "SELECT id INTO @g_id FROM genre WHERE genre_title = ?";
-	private static final String SQL_INSERT_TRANSACTION = "INSERT INTO book(book_title, author_id, publication_year, published_by_id, genre_id, status) VALUES(?, @a_id, ?, @p_id, @g_id, 'Y')";
+	private static final String SQL_INSERT_TRANSACTION = "INSERT INTO book(book_title, author_id, publication_year, published_by_id, genre_id, status, image) VALUES(?, @a_id, ?, @p_id, @g_id, 'Y', ?)";
 	
 	@Override
 	public void add(Book book) throws DaoException {
@@ -394,6 +328,8 @@ public class DatabaseBookDao implements BookDao {
 			preparedStatementInsert = connection.prepareStatement(SQL_INSERT_TRANSACTION);
 			preparedStatementInsert.setString(1, book.getBookTitle());
 			preparedStatementInsert.setInt(2, book.getPublicationYear());
+			preparedStatementInsert.setBytes(3, book.getImage());
+			
 			preparedStatementInsert.executeUpdate();
 			
 			connection.commit();
@@ -460,7 +396,4 @@ public class DatabaseBookDao implements BookDao {
 			}
 		}
 	}
-
-
-	
 }

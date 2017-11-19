@@ -1,6 +1,29 @@
 package by.htp.library.bean;
 
 public class Genre extends Model {
+	
+
+	private static final long serialVersionUID = 1666762499577808492L;
+
+	private String genreTitle;
+
+	public Genre() {
+		super();
+	}
+
+	public Genre(long id) {
+		super(id);
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getGenreTitle() {
+		return genreTitle;
+	}
+
+	public void setGenreTitle(String genreTitle) {
+		this.genreTitle = genreTitle;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -30,26 +53,4 @@ public class Genre extends Model {
 			return false;
 		return true;
 	}
-
-	private static final long serialVersionUID = 1666762499577808492L;
-
-	private String genreTitle;
-
-	public Genre() {
-		super();
-	}
-
-	public Genre(long id) {
-		super(id);
-		// TODO Auto-generated constructor stub
-	}
-
-	public String getGenreTitle() {
-		return genreTitle;
-	}
-
-	public void setGenreTitle(String genreTitle) {
-		this.genreTitle = genreTitle;
-	}
-
 }

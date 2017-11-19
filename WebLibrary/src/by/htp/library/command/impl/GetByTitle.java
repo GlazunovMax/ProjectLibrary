@@ -16,14 +16,14 @@ public class GetByTitle implements Command {
 	private static final int COUNT_ROWS_ON_PAGE = 2;
 	private static final String PAGE_NUMBER = "pageNumber";
 	private static final String ROWS_PER_PAGE = "rowsPerPage";
+	private static final String SEARCH_STRING = "search_String";
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bookAuthorOrTitle;
-		String searchOption;
 		List<Book> bookList = null;
 
-		bookAuthorOrTitle = request.getParameter("search_String");
+		bookAuthorOrTitle = request.getParameter(SEARCH_STRING);
 
 		int countRow = 0;
 		System.out.println(request.getParameter(PAGE_NUMBER));
@@ -41,27 +41,20 @@ public class GetByTitle implements Command {
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
 		String page = null;
-		String role = request.getParameter("search");
 
 		try {
 			bookList = bookService.getByTitle(bookAuthorOrTitle, start, countRow);
 			if (!bookList.isEmpty()) {
-				if (role.equals("searchClient"))
-					page = "WEB-INF/jsp/bookClient.jsp";
-				if (role.equals("searchAdmin"))
-					page = "WEB-INF/jsp/bookAdmin.jsp";
+				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
 				request.setAttribute("bookListAuthorOrTitle", bookList);
 				request.setAttribute("bookAuthorOrTitle", bookAuthorOrTitle);
 			} else {
-				if (role.equals("searchClient"))
-					page = "WEB-INF/jsp/bookClient.jsp";
-				if (role.equals("searchAdmin"))
-					page = "WEB-INF/jsp/bookAdmin.jsp";
+				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
 				request.setAttribute("errorGetBy", "Books not found...");
 			}
 		} catch (ServiceException e) {
 			request.setAttribute("errorGetBy", "Books not found is empty");
-
+			page = "WEB-INF/jsp/bookAdminOrClient.jsp";
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

@@ -34,7 +34,6 @@ public class DatabasePublishedByDao implements PublishedByDao {
 		PublishedBy publishedBy;
 		
 		try(Connection connection = connectionPool.takeConnection()) {
-			//
 			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(SQL_SELECT);
@@ -100,7 +99,5 @@ public class DatabasePublishedByDao implements PublishedByDao {
 				log.error("Cannot close preparedStatement ", e);
 			}
 		}
-		
 	}
-
 }

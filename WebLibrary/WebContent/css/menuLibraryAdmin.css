@@ -7,7 +7,6 @@
 	margin:0 auto;
 	background: gray;
 	-webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
-/*     box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);   */
 }
 
 h4{
@@ -34,11 +33,18 @@ a{
 .search_form{
 	display: inline-block;
 }
+.search_div{
+	margin:15px;
+    text-align: left;
+    background-color: #8000ff;
+    vertical-align: middle;
+    padding: 5px;
+    float:left;
+}
+
+
 
 .left_menu{
-/* 	margin:0 auto; */
-/* 	margin-right: 1100px;  */
-/* 	background: olive; */
 	-webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45); 
 	width: 20%;
 	float: left;
@@ -56,9 +62,6 @@ a{
 }
 
 .right_menu{
-/* 	margin:0 auto; */
-/*  	margin-left: 233px; */ 
-/* 	background: green; */
 	width: 80%;
  	float: left; 
 }
@@ -67,3 +70,50 @@ a{
 	border: 5px solid #a0a0a0;
 	display: inline-block;
 }
+
+/* .button{ */
+/* 	height:25px; */
+/* 	border-radius:30px; */
+/* 	border:rgba(0,0,0,.3) 0px solid; */
+/* 	background:#8080c0; */
+/* 	color:#FFF; */
+/* 	font-family: 'Open Sans', sans-serif;   */
+/* 	font-size: 15pt; */
+/* } */
+
+.buttonEditDelPage{
+	height:25px;
+  	border-radius:20px;
+  	border:rgba(0,0,0,.3) 0px solid;
+  	background:#c0c0c0;
+  	color:#000000;
+  	font-family: 'Open Sans', sans-serif;  
+  	font-size: 10pt;
+}
+
+.search_button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+    box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5) );
+    background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
+    background-color:#79bbff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #84bbf3;
+    display:inline-block;
+    color:#ffffff;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:2px 12px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #528ecc;
+}.search_button:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
+    background:-moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
+    background-color:#378de5;
+    cursor:pointer;}

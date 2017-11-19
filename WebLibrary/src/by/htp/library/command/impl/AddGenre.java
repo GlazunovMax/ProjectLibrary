@@ -14,11 +14,12 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class AddGenre implements Command{
-
+	private static final String GENRE_TITLE = "genreTitle";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Genre addGenre = new Genre();
-		addGenre.setGenreTitle(request.getParameter("genreTitle"));
+		addGenre.setGenreTitle(request.getParameter(GENRE_TITLE));
 		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		GenreService genreService = factory.getGenreService();
@@ -36,10 +37,10 @@ public class AddGenre implements Command{
 			}
 
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			request.setAttribute("AddGenreErrorNull", "Cannot add empty genre");
+			page = "addBooks.jsp";
 		}
 		
-//		redirect
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 		

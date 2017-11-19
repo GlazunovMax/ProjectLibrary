@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	import="by.htp.library.bean.Book" 
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+   	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+     
+<fmt:setLocale value="${sessionScope.locale}" />
+<fmt:setBundle basename="messages" />
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,19 +18,19 @@
 
 <c:if test="${not empty requestScope.showUpdateBook}">
 
-	<h3 style="text-align: center;">Edit book</h3>
+	<h3 style="text-align: center;"> <fmt:message key="editBook"/> </h3>
 	<form class="addForm" action="Controller" method="POST">
 		<input type="hidden" name="command" value="UpdateBook">
 		<input type="hidden" name="id"	value="${requestScope.showUpdateBook.id}" />
 		<table>
 			<tr>
-				<td align="left">Название книги:</td>
+				<td align="left"> <fmt:message key="titleBook"/> </td>
 				<td><input type="text" name="bookTitle"
 					value="${requestScope.showUpdateBook.bookTitle}" class="changeCell"/></td>
 			</tr>
 
 			<tr>
-				<td align="left">Автор:</td>
+				<td align="left"> <fmt:message key="author"/>: </td>
 				<td>
 					<select class="changeCell"	name="authorName">
 						<option selected value="requestScopeAuthorName">${requestScope.showUpdateBook.authorName}</option>
@@ -39,14 +44,14 @@
 			</tr>
 
 			<tr>
-				<td align="left">Год издания:</td>
+				<td align="left"> <fmt:message key="publicationYear"/> </td>
 				<td><input type="text" name="publicationYear" 
 					value="${requestScope.showUpdateBook.publicationYear}" class="changeCell">
 				</td>
 			</tr>
 
 			<tr>
-				<td align="left">Издательство:</td>
+				<td align="left"> <fmt:message key="published"/> </td>
 				<td>
 				<select class="changeCell"	name="publishedByTitle">
 						<option selected value="requestScopePublishedById">${requestScope.showUpdateBook.publishedById}</option>
@@ -60,7 +65,7 @@
 			</tr>
 
 			<tr>
-				<td align="left">Жанр:</td>
+				<td align="left"> <fmt:message key="genre"/> </td>
 				<td>
 					<select	class="changeCell" name="genreTitle">
 						<option selected value="requestScopeGenre">${requestScope.showUpdateBook.genreId}</option>
@@ -73,7 +78,7 @@
 			</tr>
 		</table>
 
-		<input type="submit" name="save" value="Сохранить" class="button"/>
+		<input type="submit" name="save" value="<fmt:message key="save"/>" class="button"/>
 	</form>
 </c:if>
 	
@@ -84,7 +89,7 @@
 	
 
 	<form class="addForm" action="javascript:history.back();" method="POST">
-		<input type="submit" name="DEL" value="Отмена" class="buttonCancel" />
+		<input type="submit" name="DEL" value="<fmt:message key="cancel"/>" class="buttonCancel" />
 	</form>
 	
 </body>

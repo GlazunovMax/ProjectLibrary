@@ -1,5 +1,6 @@
 package by.htp.library.service.impl;
 
+import java.io.InputStream;
 import java.util.List;
 
 import by.htp.library.bean.Book;
@@ -39,7 +40,7 @@ public class BookServiceImpl implements BookService{
 			BookDao bookDao = factory.getBookDao();
 			bookList = bookDao.getByAuthor(authorName, start, countRows);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(" рррр", e);
 		}
 		
 		return bookList;
@@ -127,7 +128,7 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public void addBook(Book book) throws ServiceException {
+	public void addBook(Book book ) throws ServiceException {
 		
 		if (book.getBookTitle() == null || book.getBookTitle().isEmpty()) {
 			throw new ServiceException("Incorect title book");

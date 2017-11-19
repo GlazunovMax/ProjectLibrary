@@ -12,14 +12,15 @@ import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
 public class ShowUpdateBook implements Command{
-
+	private static final String ID = "id";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Book book = new Book();
 		Long idBook = null;
 		
-		idBook = Long.parseLong(request.getParameter("id")); 
+		idBook = Long.parseLong(request.getParameter(ID)); 
 		System.out.println( "ID = "+ idBook);
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
@@ -42,7 +43,6 @@ public class ShowUpdateBook implements Command{
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
-		//response.sendRedirect(page);
 	}
 
 }
