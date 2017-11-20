@@ -23,9 +23,10 @@
 	  <fmt:message key="titleLibrary"/>
 	</h1>
 
-<a href="Controller?language=en_/WEB-INF/jsp/fragment/menuAdminOrClient.jsp "><fmt:message key="english"/></a><span>/</span>
-<a href="Controller?language=ru_/WEB-INF/jsp/fragment/menuAdminOrClient.jsp "><fmt:message key="russian"/></a>
-	
+<%-- <a href="Controller?language=en_/WEB-INF/jsp/fragment/menuAdminOrClient.jsp "><fmt:message key="english"/></a><span>/</span> --%>
+<%-- <a href="Controller?language=ru_/WEB-INF/jsp/fragment/menuAdminOrClient.jsp "><fmt:message key="russian"/></a> --%>
+<a href="Controller?language=en&page=/WEB-INF/jsp/fragment/menuAdminOrClient.jsp&command=changeLocale "><fmt:message key="english"/></a><span>/</span>
+<a href="Controller?language=ru&page=/WEB-INF/jsp/fragment/menuAdminOrClient.jsp&command=changeLocale "><fmt:message key="russian"/></a>	
 	
 	<h4><fmt:message key="welcom"/><c:out value=" ${sessionScope.login}"/> !</h4>
 	

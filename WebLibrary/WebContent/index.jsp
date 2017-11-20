@@ -19,11 +19,19 @@
 
 <div class="index">
 
-	<a href="Controller?language=en_index.jsp ">
+<!-- 	<a href="Controller?language=en_index.jsp "> -->
+<%-- 		<img alt="<fmt:message key="english"/>" src="${pageContext.request.contextPath}/resources/images/eng.jpg"> --%>
+<!-- 	</a> -->
+
+<!--     <a href="Controller?language=ru_index.jsp "> -->
+<%-- 		<img alt="<fmt:message key="russian"/>" src="${pageContext.request.contextPath}/resources/images/rus.jpg"> --%>
+<!--     </a> -->
+
+<a href="Controller?language=en&page=index.jsp&command=changeLocale ">
 		<img alt="<fmt:message key="english"/>" src="${pageContext.request.contextPath}/resources/images/eng.jpg">
 	</a>
 
-    <a href="Controller?language=ru_index.jsp ">
+    <a href="Controller?language=ru&page=index.jsp&command=changeLocale ">
 		<img alt="<fmt:message key="russian"/>" src="${pageContext.request.contextPath}/resources/images/rus.jpg">
     </a>
  

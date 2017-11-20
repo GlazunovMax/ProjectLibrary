@@ -3,7 +3,6 @@ package by.htp.library.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -36,8 +35,6 @@ public class Controller extends HttpServlet {
 	private static final String INDEX = "index";
 	private static final String LIST_BOOK = "listBook";
 	private static final String COMMAND = "command";
-	private static final String LANGUAGE = "language";
-	private static final String LOCALE = "locale";
 	private static final String NAME = "name";
 	private static final String LOGIN = "login";
 	private static final String SEARCH_OPTION = "search_option";
@@ -45,7 +42,6 @@ public class Controller extends HttpServlet {
 	private static final String BY_AUTHOR = "byAuthor";
 	private static final String GET_BY_TITLE = "getByTitle";
 	private static final String GET_BY_AUTHOR = "getByAuthor";
-	private static final String DELIMITER = "_";
 	private static final String MESSAGE_POOL_CLOSE = "Pool close";
 	
 	
@@ -63,7 +59,7 @@ public class Controller extends HttpServlet {
 			log.info(CONNECTION_POOL_OK);
 		} catch (ConnectionPoolException e) {
 			log.info(ERROR_CONNECTION_POOL);
-			throw new RuntimeException(ERROR_CONNECTION_POOL + e);
+			throw new ConnectionPoolError(ERROR_CONNECTION_POOL, e);
 		}
 	}
 
@@ -123,18 +119,6 @@ public class Controller extends HttpServlet {
 			command.execute(request, response);	
 		}
 		
-		
-	//		Localization
-		if(request.getParameter(LANGUAGE)!=null){
-			String[] mlanguage = request.getParameter(LANGUAGE).split(DELIMITER);
-			String language = mlanguage[0];
-			String page = mlanguage[1];
-			Locale locale = new Locale(language);
-			request.getSession().setAttribute(LOCALE, locale);
-			
-			request.getRequestDispatcher(page).forward(request, response);
-		}
-			
 		// для отображения картинок и чтения
 		processRequestImageOrRead(request, response);
 	}

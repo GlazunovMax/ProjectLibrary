@@ -8,6 +8,7 @@ import by.htp.library.command.impl.AddAuthor;
 import by.htp.library.command.impl.AddBook;
 import by.htp.library.command.impl.AddGenre;
 import by.htp.library.command.impl.AddPublishedBy;
+import by.htp.library.command.impl.ChangeLocale;
 import by.htp.library.command.impl.GetAllBook;
 import by.htp.library.command.impl.GetAllGenre;
 import by.htp.library.command.impl.GetByAuthor;
@@ -38,6 +39,7 @@ public class CommandProvider {
 		commands.put(CommandName.ADDPUBLISHEDBY, new AddPublishedBy());
 		commands.put(CommandName.ADDGENRE, new AddGenre());
 		commands.put(CommandName.GETALLBOOK, new GetAllBook());
+		commands.put(CommandName.CHANGELOCALE, new ChangeLocale());
 	}
 	
 	public Command getCommand(String commandName){
