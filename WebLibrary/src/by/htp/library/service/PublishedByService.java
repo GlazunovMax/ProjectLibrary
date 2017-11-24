@@ -11,8 +11,8 @@ public interface PublishedByService {
 	
 	List<PublishedBy> getAllPublishedBy() throws ServiceException;
 	
-	void updatePublishedBy(PublishedBy publishedBy) throws ServiceException;
-	
-	void removePublishedBy(PublishedBy publishedBy) throws ServiceException;
+//	void updatePublishedBy(PublishedBy publishedBy) throws ServiceException;
+//	
+//	void removePublishedBy(PublishedBy publishedBy) throws ServiceException;
 
 }

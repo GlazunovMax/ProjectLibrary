@@ -19,8 +19,21 @@ public class DatabasePublishedByDao implements PublishedByDao {
 	private static Logger log = Logger.getLogger(DatabaseGenreDao.class);
 
 	private static final String SQL_SELECT = "SELECT id, published_by_title FROM published_by";
+	private static final String SQL_INSERT = "INSERT INTO published_by (published_by_title) VALUES(?)";
 	private static final String ID = "id";
 	private static final String PUBLISHED_BY_TITLE = "published_by_title";
+	
+	private static final String MESSAGE_GET_PUBLISHED_BY_EXCEPTION = "Cannot get publishedBy ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL = "Error connecting to the connection pool";
+	
+	private static final String LOG_TRACE_RESULT_SET_CLOSE = "resultSet closed";
+	private static final String LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION = "Cannot close resultSet";
+	private static final String LOG_TRACE_STATEMENT_CLOSE = "statement closed";
+	private static final String LOG_ERROR_STATEMENT_CLOSE_EXCEPTION = "Cannot close statement";
+	
+	private static final String MESSAGE_ADD_PUBLISHED_BY_EXCEPTION = "Cannot add published by ";
+	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
 	
 	@Override
 	public List<PublishedBy> getAllPublishedBy() throws DaoException {
@@ -46,30 +59,30 @@ public class DatabasePublishedByDao implements PublishedByDao {
 				publishedByList.add(publishedBy);
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Cannot get publishedBy ", e);
+			throw new DaoException(MESSAGE_GET_PUBLISHED_BY_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 			try {
 				if (resultSet != null)
 					resultSet.close();
-				log.trace("resultSet closed");
+				log.trace(LOG_TRACE_RESULT_SET_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close resultSet ", e);
+				log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
 			}
 
 			try {
 				if (statement != null)
 					statement.close();
-				log.trace("statement closed");
+				log.trace(LOG_TRACE_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close statement ", e);
+				log.error(LOG_ERROR_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 		}
 		return publishedByList;
 	}
 
-	private static final String SQL_INSERT = "INSERT INTO published_by (published_by_title) VALUES(?)";
+	
 	@Override
 	public void add(PublishedBy publishedBy) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -87,16 +100,16 @@ public class DatabasePublishedByDao implements PublishedByDao {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			throw new DaoException("Cannot add published by ", e);
+			throw new DaoException(MESSAGE_ADD_PUBLISHED_BY_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Cannot close resultSet ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-				log.trace("preparedStatement closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 		}
 	}

@@ -16,6 +16,16 @@ import by.htp.library.service.factory.ServiceFactory;
 public class SignIn implements Command {
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
+	private static final String ROLE = "role";
+	private static final String USER = "user";
+	private static final String PAGE_SING_IN = "WEB-INF/jsp/libraryAdminOrClient.jsp";
+	private static final String PAGE_SING_IN_EXCEPTION = "signIn.jsp";
+	
+	private static final String ERROR_SING_IN = "errorSingIn";
+	private static final String MESSAGE_ERROR_SING_IN = "User not registered...";
+	
+	private static final String ERROR = "error";
+	private static final String MESSAGE_ERROR = "wrong password or login";
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,16 +57,16 @@ public class SignIn implements Command {
 		try {
 			user = userService.signIn(login, password);
 			if (user != null) {
-				session.setAttribute("role", user.getRole());
-				request.setAttribute("user", user);
-				page = "WEB-INF/jsp/libraryAdminOrClient.jsp"; 
+				session.setAttribute(ROLE, user.getRole());
+				request.setAttribute(USER, user);
+				page = PAGE_SING_IN; 
 			} else {
-				request.setAttribute("errorSingIn", "User not registered...");
-				page = "signIn.jsp";
+				request.setAttribute(ERROR_SING_IN, MESSAGE_ERROR_SING_IN);
+				page = PAGE_SING_IN_EXCEPTION;
 			}
 		} catch (ServiceException e1) {
-			request.setAttribute("error", "wrong password or login");
-			page = "signIn.jsp";
+			request.setAttribute(ERROR, MESSAGE_ERROR);
+			page = PAGE_SING_IN_EXCEPTION;
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

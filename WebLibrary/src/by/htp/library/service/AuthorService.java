@@ -15,8 +15,8 @@ public interface AuthorService {
 	//Author getByIdAuthor(Long id) throws ServiceException;
 	
 	//Update 
-	void updateAuthor(Author author) throws ServiceException;
+//	void updateAuthor(Author author) throws ServiceException;
 	
 	//delete
-	void removeAuthor(Author author) throws ServiceException;
+//	void removeAuthor(Author author) throws ServiceException;
 }

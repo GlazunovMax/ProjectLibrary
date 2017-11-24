@@ -9,11 +9,15 @@ import by.htp.library.service.PublishedByService;
 import by.htp.library.service.exception.ServiceException;
 
 public class PublishedByServiceImpl implements PublishedByService{
-
+	
+	private static final String MESSAGE_ERROR_GET_ALL_PUBLISHED = "Can`t get all published by";
+	private static final String MESSAGE_ERROR_EMPTY_PUBLISHED = "The search has not given any results";
+	private static final String MESSAGE_ERROR_ADD_PUBLISHED = "Cannot add published by";
+	
 	@Override
 	public void addPublishedBy(PublishedBy publishedBy) throws ServiceException {
 		if (publishedBy.getPublishedByTitle() == null || publishedBy.getPublishedByTitle().isEmpty()) {/// ????
-			throw new ServiceException("Cannot add published by! ");
+			throw new ServiceException(MESSAGE_ERROR_ADD_PUBLISHED);
 		}
 		
 		DaoFactory factory = DaoFactory.getInstance();
@@ -21,21 +25,8 @@ public class PublishedByServiceImpl implements PublishedByService{
 		try {
 			publishedByDao.add(publishedBy);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(MESSAGE_ERROR_ADD_PUBLISHED, e);
 		}
-	}
-
-
-	@Override
-	public void updatePublishedBy(PublishedBy publishedBy) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removePublishedBy(PublishedBy publishedBy) throws ServiceException {
-		// TODO Auto-generated method stub
-		
 	}
 
 
@@ -49,11 +40,11 @@ public class PublishedByServiceImpl implements PublishedByService{
 			PublishedByDao publishedByDao = factory.getPublishedByDao();
 			publishedByList = publishedByDao.getAllPublishedBy();
 		} catch (DaoException e) {
-				throw new ServiceException(e);
+				throw new ServiceException(MESSAGE_ERROR_GET_ALL_PUBLISHED, e);
 		}
 		
-		if (publishedByList == null || publishedByList.isEmpty()) {/// ????
-			throw new ServiceException("The search has not given any results");
+		if (publishedByList == null || publishedByList.isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_EMPTY_PUBLISHED);
 		}
 
 		return publishedByList;

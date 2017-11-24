@@ -2,7 +2,7 @@ package by.htp.library.service.exception;
 
 public class ServiceException extends Exception {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -607239192536945296L;
 
 	public ServiceException() {
 		super();

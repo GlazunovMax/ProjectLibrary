@@ -23,6 +23,11 @@ public class AddBook implements Command {
 	private static final String PUBLISHED_BY_TITLE = "publishedByTitle";
 	private static final String GENRE_TITLE = "genreTitle";
 	private static final String PHOTO = "photo";
+	private static final String PAGE_ADD_BOOK = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&AddBookSuccess=Book successful added in library!";
+	private static final String PAGE_ADD_BOOK_EXCEPTION = "WEB-INF/jsp/libraryAdminOrClient.jsp";
+	private static final String ADD_BOOK_ERROR = "AddBookerror";
+	private static final String MESSAGE_ADD_BOOK_ERROR = "Book cannot add";
+	private static final String JPEG = "jpeg";
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,12 +47,12 @@ public class AddBook implements Command {
 		try {
 			bookService.addBook(addbook);
 			if (addbook != null) {
-				page = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&AddBookSuccess=Book successful added in library!";
+				page = PAGE_ADD_BOOK;
 				response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
-			page = "WEB-INF/jsp/libraryAdminOrClient.jsp";
-			request.setAttribute("AddBookerror", "Book cannot add ");
+			page = PAGE_ADD_BOOK_EXCEPTION;
+			request.setAttribute(ADD_BOOK_ERROR, MESSAGE_ADD_BOOK_ERROR);
 			e.printStackTrace();
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
@@ -59,20 +64,14 @@ public class AddBook implements Command {
 	
 	public byte[] imageInBytes(HttpServletRequest request) throws IOException{
 
-		System.out.println("S photo "+ request.getParameter(PHOTO));
-		
 		File file = new File(request.getParameter(PHOTO));
 		BufferedImage img = ImageIO.read(file);
-		int width = img.getWidth();
-        int height = img.getHeight();
-        System.out.println("Input image size: " + width + " x " + height + ")\n");
 		
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		ImageIO.write(img, "jpeg", byteArrayOutputStream);
+		ImageIO.write(img, JPEG, byteArrayOutputStream);
 		byteArrayOutputStream.flush();
 		byte[] imageInbyte = byteArrayOutputStream.toByteArray();
 		byteArrayOutputStream.close();
-		System.out.println("imageInByte.length = " + imageInbyte.length + " image size = " + width * height);
 		
 		return imageInbyte;
 		

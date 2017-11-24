@@ -20,8 +20,22 @@ public class DatabaseAuthorDao  implements AuthorDao{
 	private static Logger log = Logger.getLogger(DatabaseAuthorDao.class);
 	
 	private static final String SQL_SELECT = "SELECT id, author_name FROM author";
+	private static final String SQL_INSERT = "INSERT INTO author (author_name) VALUES(?)";
 	private static final String ID = "id";
 	private static final String AUTHOR_NAME = "author_name";
+	
+	private static final String MESSAGE_GET_AUTHOR_EXCEPTION = "Cannot get authors ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL = "Error connecting to the connection pool";
+	
+	private static final String LOG_TRACE_RESULT_SET_CLOSE = "resultSet closed";
+	private static final String LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION = "Cannot close resultSet";
+	private static final String LOG_TRACE_STATEMENT_CLOSE = "statement closed";
+	private static final String LOG_ERROR_STATEMENT_CLOSE_EXCEPTION = "Cannot close statement";
+	
+	private static final String MESSAGE_ADD_AUTHOR_EXCEPTION = "Cannot add author ";
+	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
+	
 	
 	@Override
 	public List<Author> getAllBook() throws DaoException {
@@ -46,30 +60,30 @@ public class DatabaseAuthorDao  implements AuthorDao{
 				authorList.add(author);
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Cannot get authors ", e);
+			throw new DaoException(MESSAGE_GET_AUTHOR_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 			try {
 				if (resultSet != null)
 					resultSet.close();
-				log.trace("resultSet closed");
+				log.trace(LOG_TRACE_RESULT_SET_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close resultSet ", e);
+				log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
 			}
 
 			try {
 				if (statement != null)
 					statement.close();
-				log.trace("statement closed");
+				log.trace(LOG_TRACE_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close statement ", e);
+				log.error(LOG_ERROR_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 		}
 		return authorList;
 	}
 
-	private static final String SQL_INSERT = "INSERT INTO author (author_name) VALUES(?)";
+	
 	@Override
 	public void add(Author author) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -86,16 +100,16 @@ public class DatabaseAuthorDao  implements AuthorDao{
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			throw new DaoException("Cannot add author ", e);
+			throw new DaoException(MESSAGE_ADD_AUTHOR_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Cannot close resultSet ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-				log.trace("preparedStatement closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 		}
 	}

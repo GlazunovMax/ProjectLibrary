@@ -15,6 +15,10 @@ import by.htp.library.service.factory.ServiceFactory;
 
 public class AddGenre implements Command{
 	private static final String GENRE_TITLE = "genreTitle";
+	private static final String ADD_GENRE = "AddGenre";
+	private static final String ADD_BOOKS_PAGE = "addBooks.jsp";
+	private static final String ADD_GENRE_ERROR_NULL = "AddGenreErrorNull";
+	private static final String MESSAGE_ADD_GENRE_ERROR_NULL = "Cannot add empty genre";
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,17 +32,17 @@ public class AddGenre implements Command{
 		try {
 			genreService.addGenre(addGenre);
 			if(addGenre != null){
-				request.setAttribute("AddGenre", addGenre);
-				page = "addBooks.jsp";
+				request.setAttribute(ADD_GENRE, addGenre);
+				page = ADD_BOOKS_PAGE;
 			}
 			if(addGenre.getGenreTitle() == null){
-				request.setAttribute("AddGenreErrorNull", "Cannot add empty genre");
-				page = "addBooks.jsp";
+				request.setAttribute(ADD_GENRE_ERROR_NULL, MESSAGE_ADD_GENRE_ERROR_NULL);
+				page = ADD_BOOKS_PAGE;
 			}
 
 		} catch (ServiceException e) {
-			request.setAttribute("AddGenreErrorNull", "Cannot add empty genre");
-			page = "addBooks.jsp";
+			request.setAttribute(ADD_GENRE_ERROR_NULL, MESSAGE_ADD_GENRE_ERROR_NULL);
+			page = ADD_BOOKS_PAGE;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

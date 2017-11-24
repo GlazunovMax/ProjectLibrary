@@ -14,6 +14,11 @@ import by.htp.library.service.factory.ServiceFactory;
 public class ShowUpdateBook implements Command{
 	private static final String ID = "id";
 	
+	private static final String SHOW_UPDATE_BOOK = "showUpdateBook";
+	private static final String PAGE_SHOW_UPDATE_BOOK = "WEB-INF/jsp/editBook.jsp";
+	private static final String ERROR_SHOW_UPDATE_BOOK = "errorShowUpdateBook";
+	private static final String MESSAGE_ERROR_SHOW_UPDATE_BOOK = "Error date in else...";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -21,7 +26,6 @@ public class ShowUpdateBook implements Command{
 		Long idBook = null;
 		
 		idBook = Long.parseLong(request.getParameter(ID)); 
-		System.out.println( "ID = "+ idBook);
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
 		String page = null;
@@ -29,17 +33,16 @@ public class ShowUpdateBook implements Command{
 		try {
 			book = bookService.showUpdateBook(idBook);
 			if(book!=null){
-				System.out.println(book.getAuthorName()+ "" + book.getBookTitle() + " " +book.getId() );
-				request.setAttribute("showUpdateBook", book);
-				page = "WEB-INF/jsp/editBook.jsp";
+				request.setAttribute(SHOW_UPDATE_BOOK, book);
+				page = PAGE_SHOW_UPDATE_BOOK;
 			}else{
-				request.setAttribute("errorShowUpdateBook", "Error date in else...");
-				page = "WEB-INF/jsp/editBook.jsp";
+				request.setAttribute(ERROR_SHOW_UPDATE_BOOK, MESSAGE_ERROR_SHOW_UPDATE_BOOK);
+				page = PAGE_SHOW_UPDATE_BOOK;
 			}
 			
 		} catch (ServiceException e) {
-			request.setAttribute("errorShowUpdateBook", "Error date.errorShowUpdateBook..");
-			page = "WEB-INF/jsp/editBook.jsp";
+			request.setAttribute(ERROR_SHOW_UPDATE_BOOK, MESSAGE_ERROR_SHOW_UPDATE_BOOK);
+			page = PAGE_SHOW_UPDATE_BOOK;
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);

@@ -25,6 +25,18 @@ public class DatabaseUserDao implements UserDao {
 	private static final String PASSWORD = "password";
 	private static final String ROLE = "role";
 
+	private static final String MESSAGE_SING_IN_EXCEPTION = "User cannot sign in ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL = "Error connecting to the connection pool"; // DataSource
+	
+	private static final String LOG_TRACE_RESULT_SET_CLOSE = "resultSet closed";
+	private static final String LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION = "Cannot close resultSet";
+	private static final String LOG_TRACE_CONNECTION_CLOSE = "connection closed";
+	private static final String LOG_ERROR_CONNECTION_CLOSE_EXCEPTION = "Cannot close connection";
+	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
+	
+	private static final String MESSAGE_ADD_REGISTRATION_EXCEPTION = "User cannot registration ";
+	
 	@Override
 	public User signIn(String login, String password) throws DaoException {
 
@@ -62,36 +74,34 @@ public class DatabaseUserDao implements UserDao {
 			}
 
 		} catch (SQLException e) {
-			throw new DaoException("User cannot sign in ", e);
+			throw new DaoException(MESSAGE_SING_IN_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 			try {
 				if (resultSet != null)
 					resultSet.close();
-				log.trace("resultSet closed");
+				log.trace(LOG_TRACE_RESULT_SET_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close resultSet ", e);
+				log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
 			}
 
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-				log.trace("preparedStatement closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 
 			try {
 				if (connection != null)
 					connection.close();
-				log.trace("connection closed");
+				log.trace(LOG_TRACE_CONNECTION_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close connection ", e);
+				log.error(LOG_ERROR_CONNECTION_CLOSE_EXCEPTION, e);
 			}
-
 		}
-
 		return user;
 
 	}
@@ -116,17 +126,17 @@ public class DatabaseUserDao implements UserDao {
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new DaoException("User cannot registration ", e);
+			throw new DaoException(MESSAGE_ADD_REGISTRATION_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the data source ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL, e);
 		} finally {
 
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-				log.trace("preparedStatement closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
 			}
 		}
 	}

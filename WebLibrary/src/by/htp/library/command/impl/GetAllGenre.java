@@ -15,6 +15,11 @@ import by.htp.library.service.factory.ServiceFactory;
 public class GetAllGenre implements Command{
 	
 	private static final String GENRE_TITLE = "genre_title";
+	private static final String GENRE = "genre";
+	private static final String GENRE_EMPTY = "genreEmpty";
+	private static final String MESSAGE_GENRE_EMPTY = "There are no genres listed.";
+	private static final String PAGE_ERROR = "WEB-INF/error/error.jsp";
+	
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,10 +34,10 @@ public class GetAllGenre implements Command{
 		
 		try {  
 			genreList = genreService.getAllGenres();
-			request.setAttribute("genre", genreList);	
+			request.setAttribute(GENRE, genreList);	
 		} catch (ServiceException e) {
-			request.setAttribute("genreEmpty", "There are no genres listed.");
-			page = "WEB-INF/error/error.jsp";
+			request.setAttribute(GENRE_EMPTY, MESSAGE_GENRE_EMPTY);
+			page = PAGE_ERROR;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

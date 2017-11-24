@@ -37,19 +37,44 @@ public class DatabaseBookDao implements BookDao {
 	private static final String IMAGE = "image";
 	private static final String CONTENT = "content";
 	
+	private static final String TITLE = "title";
+	private static final String AUTHOR = "author";
+	private static final String GENRE = "genre";
+	
+	private static final String PERCENT = "%";
+	private static final String MESSAGE_ADD_BOOK_EXCEPTION = "Cannot find book by";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL = "Error connecting to the connection pool in";
+	private static final String LOG_TRACE_RESULT_SET_CLOSE = "resultSet closed";
+	private static final String LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION = "Cannot close resultSet";
+	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
+	
+	private static final String MESSAGE_FIND_ALL_BOOK_EXCEPTION = "Cannot find all book ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL_GET_ALL = "Error connecting to the connection pool in getAll";
+	
+	private static final String MESSAGE_UPDATE_BOOK_EXCEPTION = "Cannot update book by id ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL_UPDATE = "Error connecting to the connection pool in update";
+	
+	private static final String MESSAGE_SHOW_UPDATE_BOOK_EXCEPTION = "Cannot find book by id ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL_SELECT_UPDATE = "Error connecting to the connection pool in selectUpdate";
+	
+	private static final String MESSAGE_REMOVE_BOOK_EXCEPTION = "Cannot remove book by id ";
+	private static final String MESSAGE_ERROR_CONNECTION_POOL_REMOVE = "Error connecting to the connection pool in remove";
+	
+	
 	@Override
 	public List<Book> getByTitle(String bookTitle, int start, int countRows) throws DaoException {
-		return getListBook(bookTitle, SQL_SELECT_TITLE, "title", start, countRows);
+		return getListBook(bookTitle, SQL_SELECT_TITLE, TITLE, start, countRows);
 	}
 	
 	@Override
 	public List<Book> getByAuthor(String authorName, int start, int countRows) throws DaoException {
-		return getListBook(authorName, SQL_SELECT_AUTHOR, "author", start, countRows);
+		return getListBook(authorName, SQL_SELECT_AUTHOR, AUTHOR, start, countRows);
 	}
 
 	@Override
 	public List<Book> getByGenre(String genreName, int start, int countRows) throws DaoException {
-		return getListBook(genreName, SQL_SELECT_GENRE, "genre", start, countRows);
+		return getListBook(genreName, SQL_SELECT_GENRE, GENRE, start, countRows);
 	}
 	
 	
@@ -67,7 +92,7 @@ public class DatabaseBookDao implements BookDao {
 			preparedStatement = connection.prepareStatement(SQL);
 			
 			
-			preparedStatement.setString(1, "%" + str + "%");
+			preparedStatement.setString(1, PERCENT + str + PERCENT);
 			preparedStatement.setInt(2, start);
 			preparedStatement.setInt(3, countRows);
 			
@@ -87,25 +112,26 @@ public class DatabaseBookDao implements BookDao {
 				bookList.add(book);
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Cannot find book by " + searchBy, e);
+			throw new DaoException(MESSAGE_ADD_BOOK_EXCEPTION + searchBy, e);
 		}catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool in " + searchBy, e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL + searchBy, e);
 		}finally {
-				try {
-					if (resultSet != null)
-						resultSet.close();
-					log.trace("resultSet closed");
-				} catch (SQLException e) {
-					log.error("Cannot close resultSet ", e);
-				}
-
-				try {
-					if (preparedStatement != null)
-						preparedStatement.close();
-					log.trace("preparedStatement closed");
-				} catch (SQLException e) {
-					log.error("Cannot close preparedStatement ", e);
-				}			
+			closeResultSetAndPreparedStatement(resultSet, preparedStatement);
+//				try {
+//					if (resultSet != null)
+//						resultSet.close();
+//					log.trace(LOG_TRACE_RESULT_SET_CLOSE);
+//				} catch (SQLException e) {
+//					log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
+//				}
+//
+//				try {
+//					if (preparedStatement != null)
+//						preparedStatement.close();
+//					log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
+//				} catch (SQLException e) {
+//					log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
+//				}			
 		}	
 		return bookList;
 	}
@@ -142,25 +168,26 @@ public class DatabaseBookDao implements BookDao {
 					bookList.add(book);	
 				}
 			} catch (SQLException e) {
-				throw new DaoException("Cannot find all book ", e);
+				throw new DaoException(MESSAGE_FIND_ALL_BOOK_EXCEPTION, e);
 			}catch (ConnectionPoolException e) {
-				log.error("Error connecting to the connection pool in getAll ", e);
+				log.error(MESSAGE_ERROR_CONNECTION_POOL_GET_ALL, e);
 			}finally {
-					try {
-						if (resultSet != null)
-							resultSet.close();
-						log.trace("resultSet closed");
-					} catch (SQLException e) {
-						log.error("Cannot close resultSet ", e);
-					}
-
-					try {
-						if (preparedStatement != null)
-							preparedStatement.close();
-						log.trace("preparedStatement closed");
-					} catch (SQLException e) {
-						log.error("Cannot close preparedStatement ", e);
-					}			
+				closeResultSetAndPreparedStatement(resultSet, preparedStatement);
+//					try {
+//						if (resultSet != null)
+//							resultSet.close();
+//						log.trace(LOG_TRACE_RESULT_SET_CLOSE);
+//					} catch (SQLException e) {
+//						log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
+//					}
+//
+//					try {
+//						if (preparedStatement != null)
+//							preparedStatement.close();
+//						log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
+//					} catch (SQLException e) {
+//						log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
+//					}			
 			}
 			
 			return bookList;
@@ -184,17 +211,18 @@ public class DatabaseBookDao implements BookDao {
 			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			throw new DaoException("Cannot update book by id ", e);
+			throw new DaoException(MESSAGE_UPDATE_BOOK_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool in update", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL_UPDATE, e);
 		}finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				log.trace("preparedStatement closed");
-			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
-			}	
+			closePreparedStatement(preparedStatement);
+//			try {
+//				if (preparedStatement != null)
+//					preparedStatement.close();
+//				log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
+//			} catch (SQLException e) {
+//				log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
+//			}	
 	}	
 }
 	
@@ -222,25 +250,26 @@ public class DatabaseBookDao implements BookDao {
 				book.setGenreId(resultSet.getString(GENRE_TITLE));
 			}
 		}catch (SQLException e) {
-			throw new DaoException("Cannot find book by id ", e);
+			throw new DaoException(MESSAGE_SHOW_UPDATE_BOOK_EXCEPTION, e);
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool in selectUpdate ", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL_SELECT_UPDATE, e);
 		} finally {
-			try {
-				if (resultSet != null)
-					resultSet.close();
-				log.trace("resultSet closed");
-			} catch (SQLException e) {
-				log.error("Cannot close resultSet ", e);
-			}
-
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				log.trace("preparedStatement closed");
-			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
-			}			
+			closeResultSetAndPreparedStatement(resultSet, preparedStatement);
+//			try {
+//				if (resultSet != null)
+//					resultSet.close();
+//				log.trace("resultSet closed");
+//			} catch (SQLException e) {
+//				log.error("Cannot close resultSet ", e);
+//			}
+//
+//			try {
+//				if (preparedStatement != null)
+//					preparedStatement.close();
+//				log.trace("preparedStatement closed");
+//			} catch (SQLException e) {
+//				log.error("Cannot close preparedStatement ", e);
+//			}			
 	}
 		return book;
 }
@@ -261,19 +290,20 @@ public class DatabaseBookDao implements BookDao {
 			preparedStatement = connection.prepareStatement(SQL_DELETE_UPDATE);
 			preparedStatement.setLong(1, id);
 			preparedStatement.executeUpdate();
-			
+			 
 		} catch (SQLException e) {
-			throw new DaoException("Cannot remove book by id ", e);
+			throw new DaoException(MESSAGE_REMOVE_BOOK_EXCEPTION, e);
 		}catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool in remove", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL_REMOVE, e);
 		}finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				log.trace("preparedStatement closed");
-			} catch (SQLException e) {
-				log.error("Cannot close preparedStatement ", e);
-			}
+			closePreparedStatement(preparedStatement);
+//			try {
+//				if (preparedStatement != null)
+//					preparedStatement.close();
+//				log.trace("preparedStatement closed");
+//			} catch (SQLException e) {
+//				log.error("Cannot close preparedStatement ", e);
+//			}
 		}
 		return book;
 }
@@ -286,6 +316,27 @@ public class DatabaseBookDao implements BookDao {
 	private static final String SQL_SELECT_TRANSACTION_PUBLISHED_BY = "SELECT id INTO @p_id FROM published_by WHERE published_by_title = ?";
 	private static final String SQL_SELECT_TRANSACTION_GENRE = "SELECT id INTO @g_id FROM genre WHERE genre_title = ?";
 	private static final String SQL_INSERT_TRANSACTION = "INSERT INTO book(book_title, author_id, publication_year, published_by_id, genre_id, status, image) VALUES(?, @a_id, ?, @p_id, @g_id, 'Y', ?)";
+	
+	private static final String MESSAGE_ROLLBACK_EXCEPTION = "Cannot rollback ";
+	private static final String MESSAGE_ERROR_ADD_BOOK = "Cannot add book ";
+	
+	private static final String LOG_TRACE_PREPARED_STATEMENT_INSERT_CLOSE = "preparedStatementInsert closed ";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_INSERT_CLOSE_EXCEPTION = "Cannot close preparedStatementInsert ";
+	
+	private static final String LOG_TRACE_PREPARED_STATEMENT_GENRE_CLOSE = "preparedStatementGenre closed ";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_GENRE_CLOSE_EXCEPTION = "Cannot close preparedStatementGenre ";
+	
+	private static final String LOG_TRACE_PREPARED_STATEMENT_PUBLISHED_BY_CLOSE = "preparedStatementPublishedBy closed ";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_PUBLISHED_BY_CLOSE_EXCEPTION = " Cannot close preparedStatementPublishedBy ";
+	 
+	private static final String LOG_TRACE_PREPARED_STATEMENT_AUTHOR_CLOSE = "preparedStatementAuthor closed ";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_AUTHOR_CLOSE_EXCEPTION = "Cannot close preparedStatementAuthor ";
+	
+	private static final String LOG_TRACE_PREPARED_STATEMENT_VAR_CLOSE = "preparedStatementVar closed ";
+	private static final String LOG_ERROR_PREPARED_STATEMENT_VAR_CLOSE_EXCEPTION = " Cannot close preparedStatementVar ";
+	
+	private static final String LOG_TRACE_CONNECTION_CLOSE = "connection closed Cannot close connection ";
+	private static final String LOG_ERROR_CONNECTION_CLOSE_EXCEPTION = "Cannot close connection ";
 	
 	@Override
 	public void add(Book book) throws DaoException {
@@ -338,62 +389,93 @@ public class DatabaseBookDao implements BookDao {
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				log.error("Cannot rollback ");
-				throw new DaoException("Cannot add book ", e1);	
+				log.error(MESSAGE_ROLLBACK_EXCEPTION);
+				throw new DaoException(MESSAGE_ERROR_ADD_BOOK, e1);	
 			}
-			throw new DaoException("Cannot add book ", e);
+			throw new DaoException(MESSAGE_ERROR_ADD_BOOK, e);
 			
 		} catch (ConnectionPoolException e) {
-			log.error("Error connecting to the connection pool in remove", e);
+			log.error(MESSAGE_ERROR_CONNECTION_POOL_REMOVE, e);
 		}finally {
 			try {
 				if (preparedStatementInsert != null)
 					preparedStatementInsert.close();
-				log.trace("preparedStatementInsert closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_INSERT_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close vpreparedStatementInsert ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_INSERT_CLOSE_EXCEPTION, e);
 			}
 			
 			try {
 				if (preparedStatementGenre != null)
 					preparedStatementGenre.close();
-				log.trace("preparedStatementGenre closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_GENRE_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatementGenre ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_GENRE_CLOSE_EXCEPTION, e);
 			}
 			
 			try {
 				if (preparedStatementPublishedBy != null)
 					preparedStatementPublishedBy.close();
-				log.trace("preparedStatementPublishedBy closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_PUBLISHED_BY_CLOSE); 
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatementPublishedBy ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_PUBLISHED_BY_CLOSE_EXCEPTION, e);
 			}
-			
+			 
 			try {
 				if (preparedStatementAuthor != null)
 					preparedStatementAuthor.close();
-				log.trace("preparedStatementAuthor closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_AUTHOR_CLOSE); 
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatementAuthor ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_AUTHOR_CLOSE_EXCEPTION, e);
 			}
-			
+			  
 			try {
 				if (preparedStatementVar != null)
 					preparedStatementVar.close();
-				log.trace("preparedStatementVar closed");
+				log.trace(LOG_TRACE_PREPARED_STATEMENT_VAR_CLOSE);
 			} catch (SQLException e) {
-				log.error("Cannot close preparedStatementVar ", e);
+				log.error(LOG_ERROR_PREPARED_STATEMENT_VAR_CLOSE_EXCEPTION, e);
 			}
 			
 			try {
 				if (connection != null)
 					connection.setAutoCommit(true);
 					connection.close();
-				log.trace("connection closed");
+				log.trace(LOG_TRACE_CONNECTION_CLOSE );
 			} catch (SQLException e) {
-				log.error("Cannot close connection ", e);
+				log.error(LOG_ERROR_CONNECTION_CLOSE_EXCEPTION, e);
 			}
 		}
 	}
+	
+	
+	
+	public void closeResultSetAndPreparedStatement(ResultSet resultSet, PreparedStatement preparedStatement){
+		try {
+			if (resultSet != null)
+				resultSet.close();
+			log.trace(LOG_TRACE_RESULT_SET_CLOSE);
+		} catch (SQLException e) {
+			log.error(LOG_ERROR_RESULT_SET_CLOSE_EXCEPTION, e);
+		}
+
+		try {
+			if (preparedStatement != null)
+				preparedStatement.close();
+			log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
+		} catch (SQLException e) {
+			log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
+		}	
+	}
+		
+	public void closePreparedStatement(PreparedStatement preparedStatement){
+		try {
+			if (preparedStatement != null)
+				preparedStatement.close();
+			log.trace(LOG_TRACE_PREPARED_STATEMENT_CLOSE);
+		} catch (SQLException e) {
+			log.error(LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION, e);
+		}	
+	}
+	
 }

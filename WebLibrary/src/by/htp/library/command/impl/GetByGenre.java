@@ -18,6 +18,13 @@ public class GetByGenre implements Command{
 	private static final String ROWS_PER_PAGE = "rowsPerPage";
 	private static final String RADIO_BUTTON_GENRE = "radioButton";
 
+	private static final String PAGE_GET_BY_GENRE = "WEB-INF/jsp/bookAdminOrClient.jsp";
+	private static final String BOOK_LIST = "bookList";
+	private static final String GENRE_NAME = "genreName";
+	private static final String ERROR_GET_BY = "errorGetBy";
+	private static final String MESSAGE_GET_BY_EMPTY = "Books not found...";
+	private static final String MESSAGE_GET_BY_EXCEPTION = "Books null...";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String genreName;
@@ -45,16 +52,16 @@ public class GetByGenre implements Command{
 			bookList = bookService.getByGenre(genreName, start, countRow);
 			
 			if(!bookList.isEmpty()){
-				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
-				request.setAttribute("bookList", bookList);
-				request.setAttribute("genreName", genreName);
+				page = PAGE_GET_BY_GENRE;
+				request.setAttribute(BOOK_LIST, bookList);
+				request.setAttribute(GENRE_NAME, genreName);
 			}else{
-				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
-				request.setAttribute("errorGetBy", "Books not found...");
+				page = PAGE_GET_BY_GENRE;
+				request.setAttribute(ERROR_GET_BY, MESSAGE_GET_BY_EMPTY);
 			}
 		} catch (ServiceException e) {
-			page = "WEB-INF/jsp/bookAdminOrClient.jsp";
-			request.setAttribute("errorGetBy", "Books null...");
+			page = PAGE_GET_BY_GENRE;
+			request.setAttribute(ERROR_GET_BY, MESSAGE_GET_BY_EXCEPTION);
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

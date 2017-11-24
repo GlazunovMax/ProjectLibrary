@@ -13,6 +13,10 @@ import by.htp.library.service.factory.ServiceFactory;
 
 public class RemoveBook implements Command {
 	private static final String ID = "id";
+	private static final String PAGE_REMOVE = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&SuccessBookRemove=The book was successfully deleted.";
+	private static final String ERROR_BOOK_REMOVE = "ErrorBookRemove";
+	private static final String MESSAGE_ERROR_BOOK_REMOVE = "Cannot delete book";
+	private static final String PAGE_REMOVE_EXCEPTION = "WEB-INF/jsp/bookAdminOrClient.jsp";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,19 +24,19 @@ public class RemoveBook implements Command {
 		Long idBook = null;
 
 		idBook = Long.parseLong(request.getParameter(ID));
-		System.out.println("id= " + request.getParameter(ID));
+		
 		ServiceFactory factory = ServiceFactory.getInstance();
 		BookService bookService = factory.getBookService();
 		String page = null;
 		try {
 			if (bookRemove != null) {
 				bookRemove = bookService.remove(idBook);
-				page = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&SuccessBookRemove=The book was successfully deleted.";
+				page = PAGE_REMOVE;
 				response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("ErrorBookRemove", "Cannot delete book");
-			page = "WEB-INF/jsp/bookAdminOrClient.jsp";
+			request.setAttribute(ERROR_BOOK_REMOVE, MESSAGE_ERROR_BOOK_REMOVE);
+			page = PAGE_REMOVE_EXCEPTION;
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}

@@ -18,6 +18,14 @@ public class Registration implements Command {
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
 	private static final String ROLE = "role";
+	
+	private static final String USER = "user";
+	private static final String PAGE_REGISTRATION = "WEB-INF/jsp/libraryAdminOrClient.jsp";
+	private static final String PAGE_REGISTRATION_CLIENT = "registration.jsp";
+	private static final String PAGE_REGISTRATION_ADMIN = "registrationAdmin.jsp";
+	private static final String ERROR_REGISTRATION = "errorRegistration";
+	private static final String MESSAGE_ERROR_REGISTRATION = "Incorrect data";
+	private static final String CLIENT = "client";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,22 +46,22 @@ public class Registration implements Command {
 		try {
 			userService.registration(user);
 			if (user != null) {
-				session.setAttribute("role", user.getRole());
-				request.setAttribute("user", user);
-				page = "WEB-INF/jsp/libraryAdminOrClient.jsp";
+				session.setAttribute(ROLE, user.getRole());
+				request.setAttribute(USER, user);
+				page = PAGE_REGISTRATION;
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("errorRegistration", "Incorrect data");
-			if(user.getRole().equals("client")){
-				page = "registration.jsp";
+			request.setAttribute(ERROR_REGISTRATION, MESSAGE_ERROR_REGISTRATION);
+			if(user.getRole().equals(CLIENT)){
+				page = PAGE_REGISTRATION_CLIENT;
 			}else{
-				page = "registrationAdmin.jsp";
+				page = PAGE_REGISTRATION_ADMIN;
 			}
 			
 		}
 
-		String login = request.getParameter("login");
-		session.setAttribute("login", login);
+		String login = request.getParameter(LOGIN);
+		session.setAttribute(LOGIN, login);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);

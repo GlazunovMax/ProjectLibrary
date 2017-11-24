@@ -14,6 +14,11 @@ import by.htp.library.service.factory.ServiceFactory;
 
 public class AddAuthor implements Command {
 	private static final String AUTHOR_NAME = "authorName";
+	private static final String ADD_AUTHOR = "AddAuthor";
+	private static final String ADD_BOOKS_PAGE = "addBooks.jsp";
+	private static final String ADD_AUTHOR_ERROR_NULL = "AddAuthorErrorNull";
+	private static final String MESSAGE_ADD_AUTHOR_ERROR_NULL = "Cannot add empty author";
+
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,17 +34,17 @@ public class AddAuthor implements Command {
 		try {
 			authorService.addAuthor(addAuthor);
 			if(addAuthor != null){
-				request.setAttribute("AddAuthor", addAuthor);
-				page = "addBooks.jsp";
+				request.setAttribute(ADD_AUTHOR, addAuthor);
+				page = ADD_BOOKS_PAGE;
 			}
 			if(addAuthor.getAuthorName() == null){
-				request.setAttribute("AddAuthorErrorNull", "Cannot add empty author");
-				page = "addBooks.jsp";
+				request.setAttribute(ADD_AUTHOR_ERROR_NULL, MESSAGE_ADD_AUTHOR_ERROR_NULL);
+				page = ADD_BOOKS_PAGE;
 			}
 			
 		} catch (ServiceException e) {
-			request.setAttribute("AddAuthorErrorNull", "Cannot add empty author");
-			page = "addBooks.jsp";
+			request.setAttribute(ADD_AUTHOR_ERROR_NULL, MESSAGE_ADD_AUTHOR_ERROR_NULL);
+			page = ADD_BOOKS_PAGE;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

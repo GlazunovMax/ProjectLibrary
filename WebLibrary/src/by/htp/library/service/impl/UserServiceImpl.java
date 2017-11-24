@@ -8,18 +8,24 @@ import by.htp.library.service.UserService;
 import by.htp.library.service.exception.ServiceException;
 
 public class UserServiceImpl implements UserService {
-
+	private static final String MESSAGE_ERROR_LOGIN = "Incorect login";
+	private static final String MESSAGE_ERROR_PASSWORD = "Incorect password";
+	private static final String MESSAGE_ERROR_LOGIN_OR_PASSWORD = "Incorect login or password";
+	private static final String MESSAGE_ERROR_NAME = "Incorect name";
+	private static final String MESSAGE_ERROR_SURNAME = "Incorect surname";
+	private static final String MESSAGE_ERROR_DATA_USER = "Incorect data user";
+	
 	@Override
 	public User signIn(String login, String password) throws ServiceException {
 
 		User user = null;
 
-		if (login == null || login.isEmpty()) {/// pегуляными выажениями
-			throw new ServiceException("Incorect login");
+		if (login == null || login.isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_LOGIN);
 		}
 
 		if (password == null || password.isEmpty()) {
-			throw new ServiceException("Incorect password");
+			throw new ServiceException(MESSAGE_ERROR_PASSWORD);
 		}
 
 		try {
@@ -27,7 +33,7 @@ public class UserServiceImpl implements UserService {
 			UserDao userDao = factory.getUserDao();
 			user = userDao.signIn(login, password);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(MESSAGE_ERROR_LOGIN_OR_PASSWORD ,e);
 		}
 
 		return user;
@@ -37,20 +43,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registration(User user) throws ServiceException {
 
-		if (user.getName() == null || user.getName().isEmpty()) {/// ????
-			throw new ServiceException("Incorect name");
+		if (user.getName() == null || user.getName().isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_NAME);
 		}
 
-		if (user.getSurname() == null || user.getSurname().isEmpty()) {/// ????
-			throw new ServiceException("Incorect surname");
+		if (user.getSurname() == null || user.getSurname().isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_SURNAME);
 		}
 
-		if (user.getLogin() == null || user.getLogin().isEmpty()) {/// ????
-			throw new ServiceException("Incorect login");
+		if (user.getLogin() == null || user.getLogin().isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_LOGIN);
 		}
 
-		if (user.getPassword() == null || user.getPassword().isEmpty()) {/// ????
-			throw new ServiceException("Incorect password");
+		if (user.getPassword() == null || user.getPassword().isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_PASSWORD);
 		}
 
 		try {
@@ -58,7 +64,7 @@ public class UserServiceImpl implements UserService {
 			UserDao userDao = factory.getUserDao();
 			userDao.registration(user);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(MESSAGE_ERROR_DATA_USER, e);
 		}
 
 	}

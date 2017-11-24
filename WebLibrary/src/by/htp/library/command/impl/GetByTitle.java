@@ -18,6 +18,13 @@ public class GetByTitle implements Command {
 	private static final String ROWS_PER_PAGE = "rowsPerPage";
 	private static final String SEARCH_STRING = "search_String";
 	
+	private static final String PAGE_GET_BY_TITLE = "WEB-INF/jsp/bookAdminOrClient.jsp";
+	private static final String BOOK_LIST_AUTHOR_OR_TITLE = "bookListAuthorOrTitle";
+	private static final String BOOK_AUTHOR_OR_TITLE = "bookAuthorOrTitle";
+	private static final String ERROR_GET_BY = "errorGetBy";
+	private static final String MESSAGE_GET_BY_EMPTY = "Books not found...";
+	private static final String MESSAGE_GET_BY_EXCEPTION = "Books not found is null...";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String bookAuthorOrTitle;
@@ -45,16 +52,16 @@ public class GetByTitle implements Command {
 		try {
 			bookList = bookService.getByTitle(bookAuthorOrTitle, start, countRow);
 			if (!bookList.isEmpty()) {
-				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
-				request.setAttribute("bookListAuthorOrTitle", bookList);
-				request.setAttribute("bookAuthorOrTitle", bookAuthorOrTitle);
+				page = PAGE_GET_BY_TITLE;
+				request.setAttribute(BOOK_LIST_AUTHOR_OR_TITLE, bookList);
+				request.setAttribute(BOOK_AUTHOR_OR_TITLE, bookAuthorOrTitle);
 			} else {
-				page = "WEB-INF/jsp/bookAdminOrClient.jsp";
-				request.setAttribute("errorGetBy", "Books not found...");
+				page = PAGE_GET_BY_TITLE;
+				request.setAttribute(ERROR_GET_BY, MESSAGE_GET_BY_EMPTY);
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("errorGetBy", "Books not found is empty");
-			page = "WEB-INF/jsp/bookAdminOrClient.jsp";
+			request.setAttribute(ERROR_GET_BY, MESSAGE_GET_BY_EXCEPTION);
+			page = PAGE_GET_BY_TITLE;
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);

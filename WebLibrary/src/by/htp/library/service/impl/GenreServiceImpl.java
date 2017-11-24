@@ -9,7 +9,9 @@ import by.htp.library.service.GenreService;
 import by.htp.library.service.exception.ServiceException;
 
 public class GenreServiceImpl implements GenreService{
-
+	private static final String MESSAGE_ERROR_GET_ALL_GENRE = "Can`t get all genre";
+	private static final String MESSAGE_ERROR_EMPTY_GENRE = "The search has not given any results";
+	private static final String MESSAGE_ERROR_ADD_GENRE = "Can`t add genre";
 
 	@Override
 	public List<Genre> getAllGenres() throws ServiceException {
@@ -20,11 +22,11 @@ public class GenreServiceImpl implements GenreService{
 			GenreDao genreDao = factory.getGenreDao();
 			genreList = genreDao.getAll();
 		} catch (DaoException e) {
-				throw new ServiceException(e);
+				throw new ServiceException(MESSAGE_ERROR_GET_ALL_GENRE, e);
 		}
 		
-		if (genreList == null || genreList.isEmpty()) {/// ????
-			throw new ServiceException("The search has not given any results");
+		if (genreList == null || genreList.isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_EMPTY_GENRE);
 		}
 
 		return genreList;
@@ -33,7 +35,7 @@ public class GenreServiceImpl implements GenreService{
 	@Override
 	public void addGenre(Genre genre) throws ServiceException {
 		if (genre.getGenreTitle() == null || genre.getGenreTitle().isEmpty()) {/// ????
-			throw new ServiceException("Cannot add genre! ");
+			throw new ServiceException(MESSAGE_ERROR_ADD_GENRE);
 		}
 		
 		DaoFactory factory = DaoFactory.getInstance();
@@ -41,25 +43,7 @@ public class GenreServiceImpl implements GenreService{
 		try {
 			genreDao.add(genre);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
-		
+			throw new ServiceException(MESSAGE_ERROR_ADD_GENRE, e);
+		}	
 	}
-	
-	@Override
-	public void updateGenre(Genre genre) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void removeGenre(Genre genre) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	
-
-
 }

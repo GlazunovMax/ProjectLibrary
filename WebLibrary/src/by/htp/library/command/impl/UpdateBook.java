@@ -6,7 +6,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import by.htp.library.bean.Book;
 import by.htp.library.command.Command;
 import by.htp.library.service.BookService;
@@ -17,6 +16,12 @@ public class UpdateBook implements Command {
 	private static final String BOOK_TITLE = "bookTitle";
 	private static final String PUBLICATION_YEAR = "publicationYear";
 	private static final String ID = "id";
+	
+	private static final String PAGE_UPDATE = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&BookSuccessUpdate=Book changed successfully!";
+	private static final String PAGE_UPDATE_EXCEPTION = "WEB-INF/jsp/editBook.jsp";
+	private static final String ERROR_BOOK_UPDATE = "ErrorBookUpdate";
+	private static final String MESSAGE_ERROR_BOOK_UPDATE = "Cannot update, input fields are empty";
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -33,12 +38,12 @@ public class UpdateBook implements Command {
 		try {
 			bookService.updateBook(book);
 			if (book != null) {
-				page = "http://localhost:8080/WebLibrary/Controller?command=getAllBook&pageNumber=1&BookSuccessUpdate=Book changed successfully!";
+				page = PAGE_UPDATE;
 				response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
-			request.setAttribute("ErrorBookUpdate", "Cannot update, input fields are empty");
-			page = "WEB-INF/jsp/editBook.jsp";
+			request.setAttribute(ERROR_BOOK_UPDATE, MESSAGE_ERROR_BOOK_UPDATE);
+			page = PAGE_UPDATE_EXCEPTION;
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);

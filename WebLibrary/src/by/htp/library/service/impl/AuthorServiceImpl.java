@@ -10,13 +10,17 @@ import by.htp.library.service.AuthorService;
 import by.htp.library.service.exception.ServiceException;
 
 public class AuthorServiceImpl implements AuthorService{
+	
+	private static final String MESSAGE_ERROR_ADD_AUTHOR = "Can`t add author";
+	private static final String MESSAGE_ERROR_GET_ALL_AUTHOR = "Can`t get all author";
+	private static final String MESSAGE_ERROR_EMPTY_AUTHOR = "The search has not given any results";
 
 	@Override
 	public void addAuthor(Author author) throws ServiceException {
 		// TODO Auto-generated method stub
 //		validation
 		if (author.getAuthorName() == null || author.getAuthorName().isEmpty()) {/// ????
-			throw new ServiceException("Cannot add author! ");
+			throw new ServiceException(MESSAGE_ERROR_ADD_AUTHOR);
 		}
 		
 		DaoFactory factory = DaoFactory.getInstance();
@@ -24,23 +28,9 @@ public class AuthorServiceImpl implements AuthorService{
 		try {
 			authorDao.add(author);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(MESSAGE_ERROR_ADD_AUTHOR ,e);
 		}
 	}
-
-
-	@Override
-	public void updateAuthor(Author author) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeAuthor(Author author) throws ServiceException {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	
 	@Override
@@ -52,11 +42,11 @@ public class AuthorServiceImpl implements AuthorService{
 			AuthorDao authorDao = factory.getAuthorDao();
 			authorList = authorDao.getAllBook();
 		} catch (DaoException e) {
-				throw new ServiceException(e);
+				throw new ServiceException(MESSAGE_ERROR_GET_ALL_AUTHOR ,e);
 		}
 		
-		if (authorList == null || authorList.isEmpty()) {/// ????
-			throw new ServiceException("The search has not given any results");
+		if (authorList == null || authorList.isEmpty()) {
+			throw new ServiceException(MESSAGE_ERROR_EMPTY_AUTHOR);
 		}
 			
 		return authorList;

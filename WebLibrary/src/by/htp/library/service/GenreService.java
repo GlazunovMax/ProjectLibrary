@@ -11,8 +11,8 @@ public interface GenreService {
 	
 	List<Genre> getAllGenres() throws ServiceException;
 	
-	void updateGenre(Genre genre) throws ServiceException;
-	
-	void removeGenre(Genre genre) throws ServiceException;
+//	void updateGenre(Genre genre) throws ServiceException;
+//	
+//	void removeGenre(Genre genre) throws ServiceException;
 
 }
