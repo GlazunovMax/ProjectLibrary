@@ -8,6 +8,12 @@ import by.htp.library.dao.factory.DaoFactory;
 import by.htp.library.service.BookService;
 import by.htp.library.service.exception.ServiceException;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class BookServiceImpl implements BookService{
 	
 	private static final String TITLE = "title";
@@ -27,6 +33,14 @@ public class BookServiceImpl implements BookService{
 	private static final String MESSAGE_ERROR_EMPTY_BOOK = "List book is empty";
 	
 	
+	/** Search by the title of the book
+	 * 
+	 * @param bookTitle
+	 * @param start - Starting position of output books on the page
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws ServiceException exception if you cannot find a book by title
+	 */
 	@Override
 	public List<Book> getByTitle(String bookTitle, int start, int countRows) throws ServiceException {
 		
@@ -44,6 +58,15 @@ public class BookServiceImpl implements BookService{
 		return bookList;
 	}
 
+	
+	/** Search by the author of the book
+	 * 
+	 * @param authorName
+	 * @param start - Starting position of output books on the page
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws ServiceException exception if you cannot find a book by author
+	 */
 	@Override
 	public List<Book> getByAuthor(String authorName, int start, int countRows) throws ServiceException {
 		
@@ -61,6 +84,15 @@ public class BookServiceImpl implements BookService{
 		return bookList;
 	}
 
+	
+	/** Search by the genre of the book
+	 * 
+	 * @param genreName
+	 * @param start - Starting position of output books on the page
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws ServiceException exception if you cannot find a book by author
+	 */
 	@Override
 	public List<Book> getByGenre(String genreName, int start, int countRows) throws ServiceException {
 		
@@ -79,12 +111,24 @@ public class BookServiceImpl implements BookService{
 		return bookList;
 	}
 
+	/** Validate data 
+	 * 
+	 * @param param - search criteria 
+	 * @param by - search by 
+	 * @throws ServiceException - exception if you cannot validate data 
+	 */
 	public void valid(String param, String by) throws ServiceException{
-		if (param == null || param.isEmpty()) {///  pегуляными выажениями
+		if (param == null || param.isEmpty()) {
 			throw new ServiceException(MESSAGE_ERROR_VALID + by);
 		}
 	}
 
+	
+	/** Updating a book 
+	 * 
+	 * @param book
+	 * @throws ServiceException if you cannot update a book
+	 */
 	@Override
 	public void updateBook(Book book) throws ServiceException {
 		
@@ -105,6 +149,13 @@ public class BookServiceImpl implements BookService{
 		}
 	}
 
+	
+	/** Deleting a book by id
+	 * 
+	 * @param id
+	 * @return a deleted book
+	 * @throws ServiceException if you cannot delete a book by id
+	 */
 	@Override
 	public Book remove(long id) throws ServiceException {
 		Book book = null;
@@ -123,6 +174,12 @@ public class BookServiceImpl implements BookService{
 		
 	}
 
+	/** Show changed book
+	 * 
+	 * @param id
+	 * @return a changed book
+	 * @throws ServiceException if you cannot get a update book by id
+	 */
 	@Override
 	public Book showUpdateBook(Long id) throws ServiceException {
 		Book book = null;
@@ -142,6 +199,12 @@ public class BookServiceImpl implements BookService{
 		return book;
 	}
 
+	
+	/** Adding a book
+	 * 
+	 * @param book
+	 * @throws ServiceException if you cannot add a book
+	 */
 	@Override
 	public void addBook(Book book ) throws ServiceException {
 		
@@ -164,13 +227,17 @@ public class BookServiceImpl implements BookService{
 		
 	}
 
+	
+	/** Get all the books from the database
+	 * 
+	 * @param start - Starting position of output books on the page
+	 * @param countRows - number of books per page
+	 * @return List of all books
+	 * @throws ServiceException if you cannot get all the books
+	 */
 	@Override
 	public List<Book> getAll(int start, int countRows) throws ServiceException {
 		List<Book> bookList = null;
-		
-//		if (start == 0 || start < 0 ) {
-//			throw new ServiceException("Incorect start");
-//		}
 		
 		if (countRows == 0 || countRows < 0 ) {
 			throw new ServiceException(MESSAGE_ERROR_COUNT_ROWS);
@@ -189,7 +256,6 @@ public class BookServiceImpl implements BookService{
 		}
 		return bookList;
 	}
-
-
+	
 	
 }

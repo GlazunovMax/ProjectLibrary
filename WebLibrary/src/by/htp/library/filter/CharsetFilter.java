@@ -9,6 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/** The class processing the request before sending the request to the jsp page
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class CharsetFilter implements Filter {
 	
 	private String encoding;
@@ -25,13 +31,11 @@ public class CharsetFilter implements Filter {
 		request.setCharacterEncoding(encoding);
 		response.setContentType("text/html;charset="+encoding);
 		chain.doFilter(request, response);
-		
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		this.encoding = null;
 	}
 
 }

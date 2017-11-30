@@ -12,6 +12,12 @@ import by.htp.library.service.AuthorService;
 import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class AddAuthor implements Command {
 	private static final String AUTHOR_NAME = "authorName";
 	private static final String ADD_AUTHOR = "AddAuthor";
@@ -19,9 +25,15 @@ public class AddAuthor implements Command {
 	private static final String ADD_AUTHOR_ERROR_NULL = "AddAuthorErrorNull";
 	private static final String MESSAGE_ADD_AUTHOR_ERROR_NULL = "Cannot add empty author";
 
-	
+	/** Implementation of the interface Command - specific commands - Add Author
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws IOException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws ServletException - exception if the request could not be handled 
+	 */
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws  IOException, ServletException {
 		
 		Author addAuthor = new Author();
 		

@@ -9,17 +9,27 @@ import by.htp.library.dao.factory.DaoFactory;
 import by.htp.library.service.AuthorService;
 import by.htp.library.service.exception.ServiceException;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class AuthorServiceImpl implements AuthorService{
 	
 	private static final String MESSAGE_ERROR_ADD_AUTHOR = "Can`t add author";
 	private static final String MESSAGE_ERROR_GET_ALL_AUTHOR = "Can`t get all author";
 	private static final String MESSAGE_ERROR_EMPTY_AUTHOR = "The search has not given any results";
 
+	/**Add the author to the database 
+	 * 
+	 * @param author - Author`s name
+	 * @throws ServiceException exception if you cannot add author
+	 */
 	@Override
 	public void addAuthor(Author author) throws ServiceException {
-		// TODO Auto-generated method stub
-//		validation
-		if (author.getAuthorName() == null || author.getAuthorName().isEmpty()) {/// ????
+		
+		if (author.getAuthorName() == null || author.getAuthorName().isEmpty()) {
 			throw new ServiceException(MESSAGE_ERROR_ADD_AUTHOR);
 		}
 		
@@ -33,6 +43,11 @@ public class AuthorServiceImpl implements AuthorService{
 	}
 
 	
+	/** Get all authors from the database
+	 * 
+	 * @return  List of all authors 
+	 * @throws ServiceException exception if you cannot get all the authors
+	 */
 	@Override
 	public List<Author> getAllAuthors() throws ServiceException {
 		List<Author> authorList = null;
@@ -40,7 +55,7 @@ public class AuthorServiceImpl implements AuthorService{
 		try {
 			DaoFactory factory = DaoFactory.getInstance();
 			AuthorDao authorDao = factory.getAuthorDao();
-			authorList = authorDao.getAllBook();
+			authorList = authorDao.getAllAuthor();
 		} catch (DaoException e) {
 				throw new ServiceException(MESSAGE_ERROR_GET_ALL_AUTHOR ,e);
 		}

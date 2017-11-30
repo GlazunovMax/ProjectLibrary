@@ -12,6 +12,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabaseUserDao implements UserDao {
 	private static final Logger log = Logger.getLogger(DatabaseUserDao.class);
 
@@ -37,6 +43,13 @@ public class DatabaseUserDao implements UserDao {
 	
 	private static final String MESSAGE_ADD_REGISTRATION_EXCEPTION = "User cannot registration ";
 	
+	/** Check user by login and password to the database
+	 * 
+	 * @param login
+	 * @param password
+	 * @return returns user
+	 * @throws DaoException if you cannot to check user by login and password 
+	 */
 	@Override
 	public User signIn(String login, String password) throws DaoException {
 
@@ -106,6 +119,12 @@ public class DatabaseUserDao implements UserDao {
 
 	}
 
+	
+	/** Add the user to the database
+	 * 
+	 * @param user
+	 * @throws DaoException if you cannot add user
+	 */
 	@Override
 	public void registration(User user) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();

@@ -20,9 +20,16 @@ import by.htp.library.command.impl.ShowUpdateBook;
 import by.htp.library.command.impl.SignIn;
 import by.htp.library.command.impl.UpdateBook;
 
+/**Class implements access to command instances
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class CommandProvider {
 
 	private Map<CommandName, Command> commands = new HashMap<>();
+	
 	
 	public CommandProvider(){
 		commands.put(CommandName.SIGNIN, new SignIn());
@@ -41,6 +48,7 @@ public class CommandProvider {
 		commands.put(CommandName.GETALLBOOK, new GetAllBook());
 		commands.put(CommandName.CHANGELOCALE, new ChangeLocale());
 	}
+	
 	
 	public Command getCommand(String commandName){
 		commandName = commandName.toUpperCase();

@@ -7,6 +7,12 @@ import by.htp.library.dao.factory.DaoFactory;
 import by.htp.library.service.UserService;
 import by.htp.library.service.exception.ServiceException;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class UserServiceImpl implements UserService {
 	private static final String MESSAGE_ERROR_LOGIN = "Incorect login";
 	private static final String MESSAGE_ERROR_PASSWORD = "Incorect password";
@@ -15,6 +21,13 @@ public class UserServiceImpl implements UserService {
 	private static final String MESSAGE_ERROR_SURNAME = "Incorect surname";
 	private static final String MESSAGE_ERROR_DATA_USER = "Incorect data user";
 	
+	/** Check user by login and password to the database
+	 * 
+	 * @param login
+	 * @param password
+	 * @return returns user
+	 * @throws ServiceException if you cannot to check user by login and password 
+	 */
 	@Override
 	public User signIn(String login, String password) throws ServiceException {
 
@@ -40,6 +53,12 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	
+	/** Add the user to the database
+	 * 
+	 * @param user
+	 * @throws ServiceException if you cannot add user
+	 */
 	@Override
 	public void registration(User user) throws ServiceException {
 

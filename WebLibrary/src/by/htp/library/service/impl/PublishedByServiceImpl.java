@@ -8,12 +8,24 @@ import by.htp.library.dao.factory.DaoFactory;
 import by.htp.library.service.PublishedByService;
 import by.htp.library.service.exception.ServiceException;
 
+/**
+ * 
+ *@author Glazunov Maxim
+ *@version 1.0
+ *
+ */
 public class PublishedByServiceImpl implements PublishedByService{
 	
 	private static final String MESSAGE_ERROR_GET_ALL_PUBLISHED = "Can`t get all published by";
 	private static final String MESSAGE_ERROR_EMPTY_PUBLISHED = "The search has not given any results";
 	private static final String MESSAGE_ERROR_ADD_PUBLISHED = "Cannot add published by";
 	
+	
+	/** Add the publishing house to the database 
+	 * 
+	 * @param publishedBy
+	 * @throws ServiceException if you cannot add publishing house
+	 */
 	@Override
 	public void addPublishedBy(PublishedBy publishedBy) throws ServiceException {
 		if (publishedBy.getPublishedByTitle() == null || publishedBy.getPublishedByTitle().isEmpty()) {/// ????
@@ -29,7 +41,11 @@ public class PublishedByServiceImpl implements PublishedByService{
 		}
 	}
 
-
+	/** Get all publishing houses from the database
+	 * 
+	 * @return List of all publishing houses
+	 * @throws ServiceException if you cannot get all the publishing houses
+	 */
 	@Override
 	public List<PublishedBy> getAllPublishedBy() throws ServiceException {
 

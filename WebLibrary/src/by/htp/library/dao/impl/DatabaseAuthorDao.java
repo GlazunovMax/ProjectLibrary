@@ -15,7 +15,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
-
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabaseAuthorDao  implements AuthorDao{
 	private static Logger log = Logger.getLogger(DatabaseAuthorDao.class);
 	
@@ -37,8 +42,13 @@ public class DatabaseAuthorDao  implements AuthorDao{
 	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
 	
 	
+	/** Get all authors from the database
+	 * 
+	 * @return  List of all authors
+	 * @throws DaoException exception if you cannot get all the authors
+	 */
 	@Override
-	public List<Author> getAllBook() throws DaoException {
+	public List<Author> getAllAuthor() throws DaoException {
 		List<Author> authorList = new ArrayList<>();
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
 		ConnectionPool connectionPool = factory.getConnectionPool();
@@ -84,6 +94,11 @@ public class DatabaseAuthorDao  implements AuthorDao{
 	}
 
 	
+	/** Add the author to the database 
+	 * 
+	 * @param author - Author`s name
+	 * @throws DaoException exception if you cannot add author
+	 */
 	@Override
 	public void add(Author author) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();

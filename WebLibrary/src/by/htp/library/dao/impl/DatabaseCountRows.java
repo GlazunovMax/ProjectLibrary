@@ -10,6 +10,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabaseCountRows {
 	private static final Logger log = Logger.getLogger(DatabaseCountRows.class);
 	
@@ -34,6 +40,11 @@ public class DatabaseCountRows {
 	private static final String LOG_TRACE_STATEMENT_CLOSE = "statement closed";
 	private static final String LOG_ERROR_STATEMENT_CLOSE_EXCEPTION = "Cannot close statement";
 	
+	/**
+	 * Method get a book count
+	 * @return a book count
+	 * @throws DaoException - if you cannot get a book count
+	 */
 	public int getBooksCount() throws DaoException{
 		int count = 0;
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -62,8 +73,12 @@ public class DatabaseCountRows {
 	
 	
 	
-	
-//	Count genre by title
+	/**
+	 * Method get a genre count
+	 * @param genre - book genre
+	 * @return a genre count
+	 * @throws DaoException - if you cannot get a book count 
+	 */
 	public int getGenreCount(String genre) throws DaoException{
 		int count = 0;
 		
@@ -91,7 +106,12 @@ public class DatabaseCountRows {
 		return count;
 	}
 	
-//	Count by Author
+	/**
+	 * Method get a author count
+	 * @param author - book author
+	 * @return a author count
+	 * @throws DaoException - if you cannot get a author count 
+	 */
 	public int getAuthorCount(String author) throws DaoException{
 		int count = 0;
 	
@@ -119,6 +139,12 @@ public class DatabaseCountRows {
 		return count;
 	}
 	
+	/**
+	 * Method get a title count
+	 * @param title - book title
+	 * @return a title count
+	 * @throws DaoException - if you cannot get a author count  
+	 */
 //	Count by Title
 	public int getTitleCount(String title) throws DaoException{
 		int count = 0;
@@ -147,7 +173,11 @@ public class DatabaseCountRows {
 		return count;
 	}
 	
-	
+	/**
+	 * Method method closes ResultSet and Statement
+	 * @param resultSet
+	 * @param statement
+	 */
 	public void close(ResultSet resultSet, Statement statement){
 		try {
 			if (resultSet != null)

@@ -1,58 +1,120 @@
 package by.htp.library.bean;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ * 
+ */
 public class User extends Model {
 	private static final long serialVersionUID = -4819220118118128236L;
 
+	/** Field - user name */
 	private String name;
+	
+	/** Field - last name of the user */
 	private String surname;
+	
+	/** Field - login */
 	private String login;
+	
+	/** Password field */
 	private String password;
+	
+	/** Field - User role */
 	private String role;
 
+	/** Creates a new object
+	 * @see User#User(long)
+	*/
 	public User() {
 		super();
 	}
 
+	/** Creates a new object with given values
+	 * @see User#User() 
+	 * @param id - ID user
+	*/
 	public User(long id) {
 		super(id);
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#name}
+	 * @return Returns the user name 
+	*/
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#name}
+	 * @param name - Username
+	*/
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#surname}
+	 * @return Returns the user's last name
+	*/
 	public String getSurname() {
 		return surname;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#surname}
+	 * @param surname - surname of the user
+	*/
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#login}
+	 * @return Returns the user's login
+	*/
 	public String getLogin() {
 		return login;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#login}
+	 * @param login - user login
+	*/
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#password}
+	 * @return returns user password
+	*/
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#password}
+	 * @param password - user password
+	*/
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#role}
+	 * @return Returns the user role
+	*/
 	public String getRole() {
 		return role;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link User#role}
+	 * @param role - user role
+	*/
 	public void setRole(String role) {
 		this.role = role;
 	}

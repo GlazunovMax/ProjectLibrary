@@ -14,6 +14,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabaseBookDao implements BookDao {
 	
 	private static final Logger log = Logger.getLogger(DatabaseUserDao.class);
@@ -61,23 +67,58 @@ public class DatabaseBookDao implements BookDao {
 	private static final String MESSAGE_REMOVE_BOOK_EXCEPTION = "Cannot remove book by id ";
 	private static final String MESSAGE_ERROR_CONNECTION_POOL_REMOVE = "Error connecting to the connection pool in remove";
 	
-	
+	/** Search by the title of the book
+	 * 
+	 * @param bookTitle
+	 * @param start
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws DaoException exception if you cannot find a book by title
+	 */
 	@Override
 	public List<Book> getByTitle(String bookTitle, int start, int countRows) throws DaoException {
 		return getListBook(bookTitle, SQL_SELECT_TITLE, TITLE, start, countRows);
 	}
 	
+	
+	/** Search by the author of the book
+	 * 
+	 * @param authorName
+	 * @param start
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws DaoException exception if you cannot find a book by author
+	 */
 	@Override
 	public List<Book> getByAuthor(String authorName, int start, int countRows) throws DaoException {
 		return getListBook(authorName, SQL_SELECT_AUTHOR, AUTHOR, start, countRows);
 	}
 
+	
+	/** Search by the genre of the book
+	 * 
+	 * @param genreName
+	 * @param start
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws DaoException exception if you cannot find a book by author
+	 */
 	@Override
 	public List<Book> getByGenre(String genreName, int start, int countRows) throws DaoException {
 		return getListBook(genreName, SQL_SELECT_GENRE, GENRE, start, countRows);
 	}
 	
 	
+	/**
+	 * 
+	 * @param str - search criteria
+	 * @param SQL - query the database
+	 * @param searchBy - search by 
+	 * @param start  
+	 * @param countRows - number of books per page
+	 * @return list of books on search
+	 * @throws DaoException  if you cannot find a book by @param searchBy
+	 */
 	public List<Book> getListBook(String str, String SQL, String searchBy, int start, int countRows) throws DaoException{
 		
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -137,6 +178,13 @@ public class DatabaseBookDao implements BookDao {
 	}
 	
 	
+	/** Get all the books from the database
+	 * 
+	 * @param start
+	 * @param countRows - number of books per page
+	 * @return List of all books
+	 * @throws DaoException if you cannot get all the books
+	 */
 	@Override
 	public List<Book> getByAll(int start, int countRows) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -194,6 +242,12 @@ public class DatabaseBookDao implements BookDao {
 	
 	}
 
+	
+	/** Updating a book 
+	 * 
+	 * @param book
+	 * @throws DaoException if you cannot update a book
+	 */
 	@Override
 	public void update(Book book) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
@@ -226,7 +280,12 @@ public class DatabaseBookDao implements BookDao {
 	}	
 }
 	
-	
+	/** Show changed book
+	 * 
+	 * @param id
+	 * @return a changed book
+	 * @throws DaoException if you cannot get a update book by id
+	 */
 	@Override
 	public Book showUpdate(Long id) throws DaoException {
 		
@@ -276,7 +335,12 @@ public class DatabaseBookDao implements BookDao {
 
 	
 	
-	
+	/** Deleting a book by id
+	 * 
+	 * @param id
+	 * @return a deleted book
+	 * @throws DaoException if you cannot delete a book by id
+	 */
 	@Override
 	public Book remove(long id) throws DaoException {
 		
@@ -338,6 +402,12 @@ public class DatabaseBookDao implements BookDao {
 	private static final String LOG_TRACE_CONNECTION_CLOSE = "connection closed Cannot close connection ";
 	private static final String LOG_ERROR_CONNECTION_CLOSE_EXCEPTION = "Cannot close connection ";
 	
+	
+	/** Adding a book
+	 * 
+	 * @param book
+	 * @throws DaoException if you cannot add a book
+	 */
 	@Override
 	public void add(Book book) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();

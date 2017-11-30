@@ -23,9 +23,18 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
+import org.apache.log4j.Logger;
 
+/** Set ("pool") of connections to the database
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class ConnectionPool {
 
+	private static final Logger log = Logger.getLogger(ConnectionPool.class);
+	
 	private BlockingQueue<Connection> connectionQueue;
 	private BlockingQueue<Connection> giveAwayConQueue;
 
@@ -35,7 +44,7 @@ public class ConnectionPool {
 	private String password;
 	private int poolSize;
 
-	ConnectionPool() {//private
+	ConnectionPool() {
 		DBResourseManager dbResourseManager = DBResourseManager.getInstance();
 		this.driverName = dbResourseManager.getValue(DBParameter.DB_DRIVER); // "org.gjt.mm.mysql.Driver";
 		this.url = dbResourseManager.getValue(DBParameter.DB_URL); //"jdbc:mysql://localhost:3306/dbtest?useSSL=false";
@@ -81,8 +90,7 @@ public class ConnectionPool {
 			closeConnectionsQueue(giveAwayConQueue);
 			closeConnectionsQueue(connectionQueue);
 		} catch (SQLException e) {
-			System.out.println("Error closing the connection");
-			// log
+			log.error("Error closing the connection");
 		}
 
 	}
@@ -104,19 +112,19 @@ public class ConnectionPool {
 		try {
 			con.close();
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Connection isn't return to the pool.");
+			log.error("Connection isn't return to the pool.");
 		}
 
 		try {
 			rs.close();
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "ResultSet isn't closed.");
+			log.error("ResultSet isn't closed.");
 		}
 
 		try {
 			st.close();
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Statement isn't closed.");
+			log.error("Statement isn't closed.");
 		}
 
 	}
@@ -126,13 +134,13 @@ public class ConnectionPool {
 		try {
 			con.close();
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Connection isn't return to the pool.");
+			log.error("Connection isn't return to the pool.");
 		}
 
 		try {
 			st.close();
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Statement isn't closed.");
+			log.error("Statement isn't closed.");
 		}
 	}
 

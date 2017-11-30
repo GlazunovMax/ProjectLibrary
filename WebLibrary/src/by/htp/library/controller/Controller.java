@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +16,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
-
-@MultipartConfig
+/** The class handles Get and Post requests
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final CommandProvider provider = new CommandProvider();
@@ -49,6 +52,9 @@ public class Controller extends HttpServlet {
 		super();
 	}
 
+	/**
+	 * The method initializes the connection pool
+	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -68,6 +74,13 @@ public class Controller extends HttpServlet {
 		super.service(arg0, arg1);
 	}
 	
+	/** The method displaying the picture and content of the book
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws ServletException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws IOException - exception if the request could not be handled 
+	 */
 	protected void processRequestImageOrRead(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 //		read book
 		String typeOperation=null;
@@ -107,7 +120,9 @@ public class Controller extends HttpServlet {
 
 	
 	
-	
+	/**
+	 * The method handles Get requests
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 //		redirect Add Delete Update
@@ -123,7 +138,9 @@ public class Controller extends HttpServlet {
 		processRequestImageOrRead(request, response);
 	}
 
-	
+	/**
+	 * The method handles Post requests
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 	
@@ -152,6 +169,9 @@ public class Controller extends HttpServlet {
 	}
 
 
+	/**
+	 * The method destroy connectionPool
+	 */
 	@Override
 	public void destroy() {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();

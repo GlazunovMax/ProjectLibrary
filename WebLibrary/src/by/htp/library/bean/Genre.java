@@ -1,25 +1,42 @@
 package by.htp.library.bean;
 
+/**
+ * @author Glazunov Maxim
+ * @version 1.0
+ */
 public class Genre extends Model {
-	
-
 	private static final long serialVersionUID = 1666762499577808492L;
 
+	/** Field - genre */
 	private String genreTitle;
 
+	/** Creates a new object
+	 * @see Genre#Genre(long)
+	*/
 	public Genre() {
 		super();
 	}
 
+	/** Creates a new object with given values
+	 * @see Genre#Genre() 
+	 * @param id - Book genre ID
+	*/
 	public Genre(long id) {
 		super(id);
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link Genre#genreTitle}
+	 * @return Returns the genre of the book 
+	*/
 	public String getGenreTitle() {
 		return genreTitle;
 	}
 
+	/**
+	 * Function of obtaining the value of the field {@link Genre#genreTitle}
+	 * @param genreTitle - book genre
+	*/
 	public void setGenreTitle(String genreTitle) {
 		this.genreTitle = genreTitle;
 	}

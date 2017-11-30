@@ -13,6 +13,12 @@ import by.htp.library.service.UserService;
 import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class SignIn implements Command {
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
@@ -27,6 +33,14 @@ public class SignIn implements Command {
 	private static final String ERROR = "error";
 	private static final String MESSAGE_ERROR = "wrong password or login";
 	
+	
+	/** Implementation of the interface Command - specific commands - Sign In
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws IOException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws ServletException - exception if the request could not be handled 
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

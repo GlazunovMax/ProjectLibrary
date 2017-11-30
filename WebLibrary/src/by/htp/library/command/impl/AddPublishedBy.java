@@ -12,6 +12,12 @@ import by.htp.library.service.PublishedByService;
 import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class AddPublishedBy implements Command{
 	
 	private static final String PUBLISHED_BY_TITLE = "publishedByTitle";
@@ -20,6 +26,14 @@ public class AddPublishedBy implements Command{
 	private static final String ADD_PUBLISHED_ERROR_NULL = "AddPublishedErrorNull";
 	private static final String MESSAGE_ADD_PUBLISHED_ERROR_NULL = "Cannot add empty published by";
 	
+	
+	/** Implementation of the interface Command - specific commands - Add Published By
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws IOException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws ServletException - exception if the request could not be handled 
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PublishedBy addPublishedBy = new PublishedBy();

@@ -13,6 +13,12 @@ import by.htp.library.service.GenreService;
 import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class AddGenre implements Command{
 	private static final String GENRE_TITLE = "genreTitle";
 	private static final String ADD_GENRE = "AddGenre";
@@ -20,6 +26,13 @@ public class AddGenre implements Command{
 	private static final String ADD_GENRE_ERROR_NULL = "AddGenreErrorNull";
 	private static final String MESSAGE_ADD_GENRE_ERROR_NULL = "Cannot add empty genre";
 	
+	/** Implementation of the interface Command - specific commands - Add Genre
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws IOException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws ServletException - exception if the request could not be handled 
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Genre addGenre = new Genre();

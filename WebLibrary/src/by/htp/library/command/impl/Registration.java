@@ -12,6 +12,12 @@ import by.htp.library.service.UserService;
 import by.htp.library.service.exception.ServiceException;
 import by.htp.library.service.factory.ServiceFactory;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class Registration implements Command {
 	private static final String NAME = "name";
 	private static final String SURNAME = "surname";
@@ -27,6 +33,14 @@ public class Registration implements Command {
 	private static final String MESSAGE_ERROR_REGISTRATION = "Incorrect data";
 	private static final String CLIENT = "client";
 
+	
+	/** Implementation of the interface Command - specific commands - Registration
+	 * 
+	 * @param request - Client request
+	 * @param response - Response from server to client
+	 * @throws IOException - exception if an input or output error is detected when the servlet handles request 
+	 * @throws ServletException - exception if the request could not be handled 
+	 */
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

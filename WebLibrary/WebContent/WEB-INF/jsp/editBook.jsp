@@ -35,7 +35,7 @@
 					<select class="changeCell"	name="authorName">
 						<option selected value="requestScopeAuthorName">${requestScope.showUpdateBook.authorName}</option>
 							<jsp:useBean id="databaseAuthorDao" class="by.htp.library.dao.impl.DatabaseAuthorDao" scope="application" />
-							<c:forEach var="author" items="${databaseAuthorDao.getAllBook()}">
+							<c:forEach var="author" items="${databaseAuthorDao.getAllAuthor()}">
 								<option value="<c:out value="${author.authorName}"/>"> ${author.authorName} </option>
 							</c:forEach>
 					</select>

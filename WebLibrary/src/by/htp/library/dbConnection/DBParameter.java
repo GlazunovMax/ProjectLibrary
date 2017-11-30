@@ -1,5 +1,11 @@
 package by.htp.library.dbConnection;
 
+/** Class gets the parameters for the connection
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public final class DBParameter {
 	private DBParameter(){}
 	

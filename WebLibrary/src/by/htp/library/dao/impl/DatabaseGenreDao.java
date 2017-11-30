@@ -15,6 +15,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabaseGenreDao implements GenreDao {
 	private static Logger log = Logger.getLogger(DatabaseGenreDao.class);
 	
@@ -35,7 +41,11 @@ public class DatabaseGenreDao implements GenreDao {
 	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
 	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
 	
-	
+	/** Get all genres from the database
+	 * 
+	 * @return List of all genres
+	 * @throws DaoException  if you cannot get all the genres
+	 */
 	@Override
 	public List<Genre> getAll() throws DaoException {
 		
@@ -82,7 +92,11 @@ public class DatabaseGenreDao implements GenreDao {
 		return genreList;
 	}
 
-
+	/** Add the genre to the database 
+	 * 
+	 * @param genre
+	 * @throws DaoException if you cannot add genre
+	 */
 	@Override
 	public void add(Genre genre) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();

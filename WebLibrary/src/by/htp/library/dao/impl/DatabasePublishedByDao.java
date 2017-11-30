@@ -15,6 +15,12 @@ import by.htp.library.dbConnection.ConnectionPool;
 import by.htp.library.dbConnection.ConnectionPoolException;
 import by.htp.library.dbConnection.FactoryConnectionPool;
 
+/**
+ * 
+ * @author Glazunov Maxim
+ * @version 1.0
+ *
+ */
 public class DatabasePublishedByDao implements PublishedByDao {
 	private static Logger log = Logger.getLogger(DatabaseGenreDao.class);
 
@@ -35,6 +41,12 @@ public class DatabasePublishedByDao implements PublishedByDao {
 	private static final String LOG_TRACE_PREPARED_STATEMENT_CLOSE = "preparedStatement closed";
 	private static final String LOG_ERROR_PREPARED_STATEMENT_CLOSE_EXCEPTION = "Cannot close preparedStatement";
 	
+	
+	/** Get all publishing houses from the database
+	 * 
+	 * @return List of all publishing houses
+	 * @throws DaoException if you cannot get all the publishing houses
+	 */
 	@Override
 	public List<PublishedBy> getAllPublishedBy() throws DaoException {
 		List<PublishedBy> publishedByList = new ArrayList<>();
@@ -83,6 +95,11 @@ public class DatabasePublishedByDao implements PublishedByDao {
 	}
 
 	
+	/** Add the publishing house to the database 
+	 * 
+	 * @param publishedBy
+	 * @throws DaoException if you cannot add publishing house
+	 */
 	@Override
 	public void add(PublishedBy publishedBy) throws DaoException {
 		FactoryConnectionPool factory = FactoryConnectionPool.getInstance();
